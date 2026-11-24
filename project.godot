@@ -1,0 +1,32 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="JARCG"
+config/description="Just A Regular Card Game"
+run/main_scene="uid://c4v0hmdnh2fcl"
+config/features=PackedStringArray("4.4", "GL Compatibility")
+config/icon="uid://cb6d40d4i7ja0"
+
+[autoload]
+
+GlobalData="*res://scripts/global_data.gd"
+UiSoundManager="*res://scene_scripts/ui_sound_manager.gd"
+
+[display]
+
+window/size/mode=2
+window/stretch/mode="canvas_items"
+
+[rendering]
+
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"

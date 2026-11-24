@@ -1,0 +1,367 @@
+[gd_scene load_steps=11 format=3 uid="uid://677sq4ytclpi"]
+
+[ext_resource type="Script" uid="uid://cedjlemvuo0ew" path="res://scripts/battlelogic.gd" id="1_50tn2"]
+[ext_resource type="Script" uid="uid://d1jbmyfpvf4mk" path="res://scripts/synergy_manager.gd" id="5_oeryj"]
+[ext_resource type="Script" uid="uid://djtpv8hcciptu" path="res://tower_manager.gd" id="6_sgjk3"]
+[ext_resource type="Script" uid="uid://cv1lt006h35ba" path="res://scripts/hand_manager.gd" id="7_50tn2"]
+[ext_resource type="Script" uid="uid://dwpmrrgxtt04v" path="res://trap_manager.gd" id="7_cvxeh"]
+[ext_resource type="Script" uid="uid://bhgn7x20nifwj" path="res://scripts/enemy_ai.gd" id="7_xpi1g"]
+[ext_resource type="Script" uid="uid://duyomqmvp2s03" path="res://scripts/deck_manager.gd" id="8_50tn2"]
+[ext_resource type="Script" uid="uid://bvokoggw6sujv" path="res://scripts/vfx_manager.gd" id="8_cvxeh"]
+[ext_resource type="Script" uid="uid://cwwput26eyjsu" path="res://scripts/deploy_manager.gd" id="9_cvxeh"]
+[ext_resource type="Script" uid="uid://detjyfxyfoiyp" path="res://scripts/admin_console.gd" id="10_0w0t8"]
+
+[node name="Jarcg" type="Node2D"]
+script = ExtResource("1_50tn2")
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="Panel" type="Panel" parent="UI"]
+offset_left = 27.0
+offset_top = 322.0
+offset_right = 277.0
+offset_bottom = 639.0
+
+[node name="AbilityButton" type="Button" parent="UI/Panel"]
+custom_minimum_size = Vector2(57, 54)
+layout_mode = 2
+offset_left = 251.0
+offset_top = 3.0
+offset_right = 308.0
+offset_bottom = 58.0
+theme_override_font_sizes/font_size = 24
+
+[node name="DeployButton" type="Button" parent="UI/Panel"]
+custom_minimum_size = Vector2(57, 54)
+layout_mode = 2
+offset_left = 251.0
+offset_top = 70.0
+offset_right = 308.0
+offset_bottom = 124.0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="UI/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_scroll_mode = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/Panel/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="NameLabel" type="Label" parent="UI/Panel/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="StatsLabel" type="Label" parent="UI/Panel/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="DescLabel" type="Label" parent="UI/Panel/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+autowrap_mode = 2
+
+[node name="HoverTooltip" type="Label" parent="UI"]
+offset_left = -50.0
+offset_top = -31.0
+offset_right = -10.0
+offset_bottom = -8.0
+
+[node name="DrawButton" type="Button" parent="UI"]
+offset_left = 1048.0
+offset_top = 312.0
+offset_right = 1130.0
+offset_bottom = 346.0
+text = "Draw Pile"
+
+[node name="EndTurnButton" type="Button" parent="UI"]
+offset_left = 1048.0
+offset_top = 354.0
+offset_right = 1128.0
+offset_bottom = 390.0
+text = "End Turn"
+
+[node name="ConsolePanel" type="Panel" parent="UI"]
+offset_left = 15.0
+offset_top = 15.0
+offset_right = 213.0
+offset_bottom = 275.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/ConsolePanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TurnLabel" type="Label" parent="UI/ConsolePanel/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+
+[node name="LogText" type="RichTextLabel" parent="UI/ConsolePanel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/normal_font_size = 10
+scroll_following = true
+autowrap_mode = 2
+
+[node name="ConsoleInput" type="LineEdit" parent="UI/ConsolePanel/VBoxContainer"]
+layout_mode = 2
+placeholder_text = "Enter Command..."
+
+[node name="AIHandVisuals" type="HBoxContainer" parent="UI"]
+offset_left = 952.0
+offset_right = 1152.0
+offset_bottom = 112.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 1
+
+[node name="TopLeftButtons" type="HBoxContainer" parent="UI"]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="BtnSettings" type="Button" parent="UI/TopLeftButtons"]
+layout_mode = 2
+text = "⚙️SETTINGS"
+
+[node name="BtnChat" type="Button" parent="UI/TopLeftButtons"]
+layout_mode = 2
+text = "💬 CONSOLE"
+
+[node name="SettingsOverlay" type="ColorRect" parent="UI"]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.678944, 0.678944, 0.678944, 0.607843)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/SettingsOverlay"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -176.0
+offset_top = -212.0
+offset_right = 177.0
+offset_bottom = 316.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 43
+
+[node name="Label" type="Label" parent="UI/SettingsOverlay/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "   PAUSED"
+
+[node name="GridContainer" type="GridContainer" parent="UI/SettingsOverlay/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/h_separation = 100
+theme_override_constants/v_separation = 30
+columns = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/SettingsOverlay/VBoxContainer/GridContainer"]
+layout_mode = 2
+
+[node name="Master" type="Label" parent="UI/SettingsOverlay/VBoxContainer/GridContainer/VBoxContainer"]
+layout_mode = 2
+text = "MASTER"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/SettingsOverlay/VBoxContainer/GridContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="MasterSlider" type="HSlider" parent="UI/SettingsOverlay/VBoxContainer/GridContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.01
+value = 0.5
+
+[node name="MasterValue" type="Label" parent="UI/SettingsOverlay/VBoxContainer/GridContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "50"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="UI/SettingsOverlay/VBoxContainer/GridContainer"]
+layout_mode = 2
+
+[node name="User Interface" type="Label" parent="UI/SettingsOverlay/VBoxContainer/GridContainer/VBoxContainer2"]
+layout_mode = 2
+text = "USER INTERFACE"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/SettingsOverlay/VBoxContainer/GridContainer/VBoxContainer2"]
+layout_mode = 2
+
+[node name="UISlider" type="HSlider" parent="UI/SettingsOverlay/VBoxContainer/GridContainer/VBoxContainer2/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.01
+value = 0.5
+
+[node name="UIValue" type="Label" parent="UI/SettingsOverlay/VBoxContainer/GridContainer/VBoxContainer2/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "50"
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="UI/SettingsOverlay/VBoxContainer/GridContainer"]
+layout_mode = 2
+
+[node name="Sound Effects" type="Label" parent="UI/SettingsOverlay/VBoxContainer/GridContainer/VBoxContainer3"]
+layout_mode = 2
+text = "SOUND EFFECTS"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/SettingsOverlay/VBoxContainer/GridContainer/VBoxContainer3"]
+layout_mode = 2
+
+[node name="SFXSlider" type="HSlider" parent="UI/SettingsOverlay/VBoxContainer/GridContainer/VBoxContainer3/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.01
+value = 0.5
+
+[node name="SFXValue" type="Label" parent="UI/SettingsOverlay/VBoxContainer/GridContainer/VBoxContainer3/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "50"
+
+[node name="VBoxContainer4" type="VBoxContainer" parent="UI/SettingsOverlay/VBoxContainer/GridContainer"]
+layout_mode = 2
+
+[node name="Music" type="Label" parent="UI/SettingsOverlay/VBoxContainer/GridContainer/VBoxContainer4"]
+layout_mode = 2
+text = "MUSIC"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/SettingsOverlay/VBoxContainer/GridContainer/VBoxContainer4"]
+layout_mode = 2
+
+[node name="MusicSlider" type="HSlider" parent="UI/SettingsOverlay/VBoxContainer/GridContainer/VBoxContainer4/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.01
+value = 0.5
+
+[node name="MusicValue" type="Label" parent="UI/SettingsOverlay/VBoxContainer/GridContainer/VBoxContainer4/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "50"
+
+[node name="BtnResume" type="Button" parent="UI/SettingsOverlay/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "RESUME"
+
+[node name="BtnReturnMain" type="Button" parent="UI/SettingsOverlay/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Main Menu
+"
+
+[node name="Board" type="Node" parent="."]
+
+[node name="pf1" type="Marker2D" parent="Board"]
+position = Vector2(384, 544)
+
+[node name="pf2" type="Marker2D" parent="Board"]
+position = Vector2(512, 544)
+
+[node name="pf3" type="Marker2D" parent="Board"]
+position = Vector2(640, 544)
+
+[node name="pf4" type="Marker2D" parent="Board"]
+position = Vector2(768, 544)
+
+[node name="pr1" type="Marker2D" parent="Board"]
+position = Vector2(896, 600)
+
+[node name="ef1" type="Marker2D" parent="Board"]
+position = Vector2(768, 78)
+
+[node name="ef2" type="Marker2D" parent="Board"]
+position = Vector2(640, 78)
+
+[node name="ef3" type="Marker2D" parent="Board"]
+position = Vector2(512, 78)
+
+[node name="ef4" type="Marker2D" parent="Board"]
+position = Vector2(384, 78)
+
+[node name="er1" type="Marker2D" parent="Board"]
+position = Vector2(896, 40)
+
+[node name="ph" type="Marker2D" parent="Board"]
+position = Vector2(576, 701)
+
+[node name="pt" type="Marker2D" parent="Board"]
+position = Vector2(256, 601)
+
+[node name="et" type="Marker2D" parent="Board"]
+position = Vector2(256, 40)
+
+[node name="eh" type="Marker2D" parent="Board"]
+position = Vector2(572, -265)
+
+[node name="phy1" type="Marker2D" parent="Board"]
+position = Vector2(512, 400)
+
+[node name="phy2" type="Marker2D" parent="Board"]
+position = Vector2(640, 400)
+
+[node name="phs1" type="Marker2D" parent="Board"]
+position = Vector2(384, 400)
+
+[node name="phs2" type="Marker2D" parent="Board"]
+position = Vector2(768, 400)
+
+[node name="ehy1" type="Marker2D" parent="Board"]
+position = Vector2(640, 240)
+
+[node name="ehy2" type="Marker2D" parent="Board"]
+position = Vector2(512, 240)
+
+[node name="ehs1" type="Marker2D" parent="Board"]
+position = Vector2(768, 240)
+
+[node name="ehs2" type="Marker2D" parent="Board"]
+position = Vector2(384, 240)
+
+[node name="EnemyAI" type="Node" parent="."]
+script = ExtResource("7_xpi1g")
+
+[node name="HandManager" type="Node" parent="."]
+script = ExtResource("7_50tn2")
+
+[node name="DeckManager" type="Node" parent="."]
+script = ExtResource("8_50tn2")
+
+[node name="SynergyManager" type="Node" parent="."]
+script = ExtResource("5_oeryj")
+
+[node name="TowerManager" type="Node" parent="."]
+script = ExtResource("6_sgjk3")
+
+[node name="TrapManager" type="Node" parent="."]
+script = ExtResource("7_cvxeh")
+
+[node name="VFXManager" type="Node" parent="."]
+script = ExtResource("8_cvxeh")
+
+[node name="DeployManager" type="Node" parent="."]
+script = ExtResource("9_cvxeh")
+
+[node name="AdminConsole" type="Node" parent="."]
+script = ExtResource("10_0w0t8")

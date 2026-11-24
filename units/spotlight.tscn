@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://c7iwoedtp7kro"]
+
+[ext_resource type="Texture2D" uid="uid://yt0j0kkugqa1" path="res://images/spotlight.png" id="1_pjjxe"]
+[ext_resource type="Script" uid="uid://drv1qw630ycfb" path="res://scripts/cards.gd" id="2_w5ny2"]
+[ext_resource type="Script" uid="uid://b2qp0cjn02tsj" path="res://ability/ability_spotlight.gd" id="3_w5ny2"]
+
+[node name="spotlight" type="Sprite2D" groups=["cards"]]
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_pjjxe")
+script = ExtResource("2_w5ny2")
+tags = Array[String](["Mechanical", "Ground", "Light"])
+card_name = "Spotlight"
+is_ranged = true
+is_ground = true
+is_anti_air = true
+attack_power = 5
+health = 20
+defense = 10
+attack_vfx = "Light"
+
+[node name="Ability" type="Node" parent="."]
+script = ExtResource("3_w5ny2")
+ability_name = "Blindness"
+initial_cooldown = 2

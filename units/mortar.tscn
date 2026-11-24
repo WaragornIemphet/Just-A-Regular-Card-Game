@@ -1,0 +1,34 @@
+[gd_scene load_steps=7 format=3 uid="uid://p8cf0rskc5te"]
+
+[ext_resource type="Script" uid="uid://drv1qw630ycfb" path="res://scripts/cards.gd" id="1_1f5uh"]
+[ext_resource type="Texture2D" uid="uid://bp7i0hqdjk4fu" path="res://images/mortar.png" id="1_yblbk"]
+[ext_resource type="Script" uid="uid://bhlefgsbwmobw" path="res://scripts/passive_manager.gd" id="3_gdll6"]
+[ext_resource type="AudioStream" uid="uid://b8w543y4rx1cr" path="res://audio/sfx/mortar_fire1.wav" id="3_pmd36"]
+[ext_resource type="Script" uid="uid://bukasenotnfs1" path="res://passive/passive_indirect_fire.gd" id="4_pmd36"]
+[ext_resource type="Script" uid="uid://bkmp86yyn78gt" path="res://ability/ability_mortar_strike.gd" id="5_gdll6"]
+
+[node name="Mortar" type="Sprite2D" groups=["cards"]]
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_yblbk")
+script = ExtResource("1_1f5uh")
+tags = Array[String](["Male", "Humanoid", "Infantry", "Artillery", "Ground"])
+card_name = "Mortar Crew"
+is_ranged = true
+is_ground = true
+attack_power = 30
+health = 50
+defense = 5
+attack_vfx = "Explosion"
+attack_sfx = Array[AudioStream]([ExtResource("3_pmd36")])
+attack_times = 2
+
+[node name="PassiveManager" type="Node" parent="."]
+script = ExtResource("3_gdll6")
+
+[node name="Artillery" type="Node" parent="PassiveManager"]
+script = ExtResource("4_pmd36")
+
+[node name="Ability" type="Node" parent="."]
+script = ExtResource("5_gdll6")
+ability_name = "Mortar Strike"
+initial_cooldown = 3

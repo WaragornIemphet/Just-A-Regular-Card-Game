@@ -1,0 +1,60 @@
+[gd_scene load_steps=9 format=3 uid="uid://but4esiix1fhb"]
+
+[ext_resource type="Texture2D" uid="uid://bjgx5wqmmvo77" path="res://images/sq.png" id="1_d0mpu"]
+[ext_resource type="Script" uid="uid://drv1qw630ycfb" path="res://scripts/cards.gd" id="2_mfp25"]
+[ext_resource type="AudioStream" uid="uid://dt64vgtat61lv" path="res://audio/music/sledgequeen.mp3" id="3_hk8h0"]
+[ext_resource type="AudioStream" uid="uid://dha88fw2x2yi4" path="res://audio/sfx/sqhit.mp3" id="3_mfp25"]
+[ext_resource type="Script" uid="uid://c0uxpmpmigc6" path="res://scripts/mode_manager.gd" id="5_63747"]
+[ext_resource type="Script" uid="uid://bce0p8sfmiqv2" path="res://scripts/card_mode_data.gd" id="6_hpmjx"]
+[ext_resource type="AudioStream" uid="uid://lny6wk0unaw1" path="res://audio/sfx/sqshell.mp3" id="7_5x0mk"]
+
+[sub_resource type="Resource" id="Resource_3bq7q"]
+script = ExtResource("6_hpmjx")
+mode_name = "Shellshot"
+is_melee = false
+is_ranged = true
+has_depth_charge = false
+can_attack = true
+is_ground = true
+is_air = false
+is_naval = false
+is_sub_naval = false
+is_orbital = false
+is_anti_air = false
+is_sam = false
+attack_power = 80
+crit_chance = 0
+crit_multiplier = 2.0
+attack_times = 1
+max_attack_cooldown = 2
+burst_count = 1
+burst_delay = 0.2
+base_ignore_def = false
+splash_damage = true
+outgoing_damage_type = "normal"
+attack_vfx = "Explosion"
+attack_sfx = Array[AudioStream]([ExtResource("7_5x0mk")])
+metadata/_custom_type_script = "uid://bce0p8sfmiqv2"
+
+[node name="Sledgequeen" type="Sprite2D" groups=["cards"]]
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_d0mpu")
+script = ExtResource("2_mfp25")
+tags = Array[String](["Female", "Humanoid", "Ground"])
+card_name = "Sledge Queen"
+base_mode_name = "Decimator"
+is_melee = true
+is_ground = true
+attack_power = 50
+health = 1200
+crit_chance = 1
+attack_vfx = "Explosion"
+attack_sfx = Array[AudioStream]([ExtResource("3_mfp25")])
+is_boss = true
+boss_theme = ExtResource("3_hk8h0")
+splash_damage = true
+
+[node name="ModeManager" type="Node" parent="."]
+script = ExtResource("5_63747")
+base_mode_name = "Decimator"
+alternate_modes = Array[ExtResource("6_hpmjx")]([SubResource("Resource_3bq7q")])

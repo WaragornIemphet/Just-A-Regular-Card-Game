@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://ddmtovinahp4l"]
+
+[ext_resource type="Texture2D" uid="uid://qd87wn4gocw0" path="res://images/37pak36.png" id="1_7jd4s"]
+[ext_resource type="Script" uid="uid://drv1qw630ycfb" path="res://scripts/cards.gd" id="2_mn81t"]
+[ext_resource type="AudioStream" uid="uid://3t2a6igbbjga" path="res://audio/sfx/cannon.mp3" id="3_mn81t"]
+
+[node name="37Pak36" type="Sprite2D" groups=["cards"]]
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_7jd4s")
+script = ExtResource("2_mn81t")
+tags = Array[String](["Anti-Tank", "Mechanical", "Ground"])
+card_name = "37mm Pak 36"
+is_ranged = true
+is_ground = true
+attack_power = 35
+health = 30
+defense = 50
+attack_vfx = "Explosion"
+attack_sfx = Array[AudioStream]([ExtResource("3_mn81t")])

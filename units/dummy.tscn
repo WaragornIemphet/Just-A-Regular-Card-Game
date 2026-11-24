@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://no3iw316l6b4"]
+
+[ext_resource type="Texture2D" uid="uid://bqyedqjtjkn3q" path="res://images/dummy.png" id="1_dv0qw"]
+[ext_resource type="Script" uid="uid://drv1qw630ycfb" path="res://scripts/cards.gd" id="2_5hp8k"]
+[ext_resource type="Script" uid="uid://h86gmlal8dyq" path="res://scripts/debuff_manager.gd" id="3_3bprl"]
+[ext_resource type="Script" uid="uid://bvem8volanydk" path="res://ability/ability_taunt.gd" id="3_r83eg"]
+
+[node name="Dummy" type="Sprite2D" groups=["cards"]]
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_dv0qw")
+script = ExtResource("2_5hp8k")
+card_name = "Dummy"
+is_melee = true
+is_ground = true
+attack_power = 1
+health = 80
+defense = 20
+crit_chance = 1
+crit_multiplier = 100.0
+attack_vfx = "Melee Hit"
+
+[node name="Ability" type="Node" parent="."]
+script = ExtResource("3_r83eg")
+debuff_duration = 3
+ability_name = "Target Dummy"
+initial_cooldown = 2
+max_cooldown = 4
+
+[node name="DebuffManager" type="Node" parent="."]
+script = ExtResource("3_3bprl")

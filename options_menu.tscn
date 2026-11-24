@@ -1,0 +1,152 @@
+[gd_scene load_steps=3 format=3 uid="uid://dl41etc2sgbrm"]
+
+[ext_resource type="Script" uid="uid://c1v5nrmcdt17p" path="res://options_menu.gd" id="1_lbr8e"]
+[ext_resource type="Script" uid="uid://l43xi2wga2vl" path="res://test_music_button.gd" id="2_t1lix"]
+
+[node name="OptionsMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_lbr8e")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.780392, 0.772549, 0.756863, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -176.0
+offset_top = -10.0
+offset_right = 177.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 48
+alignment = 1
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 60
+text = "  SETTINGS"
+
+[node name="GridContainer" type="GridContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/h_separation = 100
+theme_override_constants/v_separation = 30
+columns = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/GridContainer"]
+layout_mode = 2
+
+[node name="Master" type="Label" parent="VBoxContainer/GridContainer/VBoxContainer"]
+layout_mode = 2
+text = "MASTER"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/GridContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="MasterSlider" type="HSlider" parent="VBoxContainer/GridContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.01
+value = 0.5
+
+[node name="MasterValue" type="Label" parent="VBoxContainer/GridContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "50"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/GridContainer"]
+layout_mode = 2
+
+[node name="User Interface" type="Label" parent="VBoxContainer/GridContainer/VBoxContainer2"]
+layout_mode = 2
+text = "USER INTERFACE"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/GridContainer/VBoxContainer2"]
+layout_mode = 2
+
+[node name="UISlider" type="HSlider" parent="VBoxContainer/GridContainer/VBoxContainer2/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.01
+value = 0.5
+
+[node name="UIValue" type="Label" parent="VBoxContainer/GridContainer/VBoxContainer2/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "50"
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="VBoxContainer/GridContainer"]
+layout_mode = 2
+
+[node name="Sound Effects" type="Label" parent="VBoxContainer/GridContainer/VBoxContainer3"]
+layout_mode = 2
+text = "SOUND EFFECTS"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/GridContainer/VBoxContainer3"]
+layout_mode = 2
+
+[node name="SFXSlider" type="HSlider" parent="VBoxContainer/GridContainer/VBoxContainer3/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.01
+value = 0.5
+
+[node name="SFXValue" type="Label" parent="VBoxContainer/GridContainer/VBoxContainer3/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "50"
+
+[node name="VBoxContainer4" type="VBoxContainer" parent="VBoxContainer/GridContainer"]
+layout_mode = 2
+
+[node name="Music" type="Label" parent="VBoxContainer/GridContainer/VBoxContainer4"]
+layout_mode = 2
+text = "MUSIC"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/GridContainer/VBoxContainer4"]
+layout_mode = 2
+
+[node name="MusicSlider" type="HSlider" parent="VBoxContainer/GridContainer/VBoxContainer4/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.01
+value = 0.5
+
+[node name="MusicValue" type="Label" parent="VBoxContainer/GridContainer/VBoxContainer4/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "50"
+
+[node name="BackButton" type="Button" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "RETURN
+"
+
+[node name="TestMusicButton" type="Button" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "TEST PLAYSOUND"
+script = ExtResource("2_t1lix")

@@ -1,0 +1,90 @@
+[gd_scene load_steps=10 format=3 uid="uid://co66xaqtv1tf8"]
+
+[ext_resource type="Texture2D" uid="uid://bmtj4p3oltka8" path="res://images/neu cards/F-16.jpg" id="1_eytmv"]
+[ext_resource type="Script" uid="uid://drv1qw630ycfb" path="res://scripts/cards.gd" id="2_50hr7"]
+[ext_resource type="AudioStream" uid="uid://bh02ee8uogs3j" path="res://audio/sfx/vulcan.mp3" id="3_50hr7"]
+[ext_resource type="Script" uid="uid://c0uxpmpmigc6" path="res://scripts/mode_manager.gd" id="4_y6rfi"]
+[ext_resource type="Script" uid="uid://bce0p8sfmiqv2" path="res://scripts/card_mode_data.gd" id="5_d3vpx"]
+[ext_resource type="AudioStream" uid="uid://bs1jpoqnuxi0q" path="res://audio/sfx/rocketfire1.wav" id="6_lj21w"]
+[ext_resource type="AudioStream" uid="uid://dqdsw4j7v4o2b" path="res://audio/sfx/bomb.mp3" id="6_pa16v"]
+
+[sub_resource type="Resource" id="Resource_pa16v"]
+script = ExtResource("5_d3vpx")
+mode_name = "AAM"
+is_melee = false
+is_ranged = true
+has_depth_charge = false
+can_attack = true
+is_ground = false
+is_air = false
+is_naval = false
+is_sub_naval = false
+is_orbital = false
+is_anti_air = false
+is_sam = true
+attack_power = 300
+crit_chance = 5
+crit_multiplier = 2.0
+attack_times = 1
+max_attack_cooldown = 0
+burst_count = 1
+burst_delay = 0.2
+base_ignore_def = false
+splash_damage = false
+outgoing_damage_type = "normal"
+attack_vfx = "Explosion"
+attack_sfx = Array[AudioStream]([ExtResource("6_lj21w")])
+metadata/_custom_type_script = "uid://bce0p8sfmiqv2"
+
+[sub_resource type="Resource" id="Resource_lj21w"]
+script = ExtResource("5_d3vpx")
+mode_name = "Bomb"
+is_melee = false
+is_ranged = true
+has_depth_charge = false
+can_attack = true
+is_ground = false
+is_air = true
+is_naval = false
+is_sub_naval = false
+is_orbital = false
+is_anti_air = false
+is_sam = false
+attack_power = 60
+crit_chance = 0
+crit_multiplier = 2.0
+attack_times = 4
+max_attack_cooldown = 3
+burst_count = 1
+burst_delay = 0.2
+base_ignore_def = false
+splash_damage = true
+outgoing_damage_type = "normal"
+attack_vfx = "Explosion"
+attack_sfx = Array[AudioStream]([ExtResource("6_pa16v")])
+metadata/_custom_type_script = "uid://bce0p8sfmiqv2"
+
+[node name="F-16" type="Sprite2D" groups=["cards"]]
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_eytmv")
+script = ExtResource("2_50hr7")
+tags = Array[String](["Air", "Mechanical", "Aircraft"])
+card_name = "F-16"
+base_mode_name = "Vulcan"
+is_ranged = true
+is_air = true
+attack_power = 40
+health = 100
+defense = 150
+evasion = 20
+attack_vfx = "Gunfire"
+attack_sfx = Array[AudioStream]([ExtResource("3_50hr7")])
+burst_count = 3
+burst_delay = 0.1
+immune_to_wet = true
+immune_to_slow = true
+
+[node name="ModeManager" type="Node" parent="."]
+script = ExtResource("4_y6rfi")
+base_mode_name = "Vulcan"
+alternate_modes = Array[ExtResource("5_d3vpx")]([SubResource("Resource_pa16v"), SubResource("Resource_lj21w")])

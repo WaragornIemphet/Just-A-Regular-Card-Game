@@ -1,0 +1,33 @@
+[gd_scene load_steps=6 format=3 uid="uid://bik3dj0nxmj8d"]
+
+[ext_resource type="Texture2D" uid="uid://7ct1dlmecdl5" path="res://images/birchtree.png" id="1_5tqib"]
+[ext_resource type="Script" uid="uid://drv1qw630ycfb" path="res://scripts/cards.gd" id="2_o7yf6"]
+[ext_resource type="Script" uid="uid://bhlefgsbwmobw" path="res://scripts/passive_manager.gd" id="3_5tqib"]
+[ext_resource type="AudioStream" uid="uid://rgcksm3p5rpr" path="res://audio/sfx/tree.mp3" id="3_lik68"]
+[ext_resource type="Script" uid="uid://d3p2xvfwtt2ve" path="res://passive/passive_birchtree.gd" id="4_lik68"]
+
+[node name="birchtree" type="Sprite2D" groups=["cards"]]
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_5tqib")
+script = ExtResource("2_o7yf6")
+tags = Array[String](["Ground", "Plant"])
+card_name = "I LOVE TREES"
+is_hybrid = true
+is_melee = true
+can_attack = false
+is_ground = true
+attack_power = 999999999
+health = 1000
+defense = 10
+inf_attack = true
+attack_sfx = Array[AudioStream]([ExtResource("3_lik68")])
+attack_times = 0
+base_ignore_def = true
+outgoing_damage_type = "pierce"
+
+[node name="PassiveManager" type="Node" parent="."]
+script = ExtResource("3_5tqib")
+
+[node name="birch" type="Node" parent="PassiveManager"]
+script = ExtResource("4_lik68")
+passive_name = "I LOVE TREES"

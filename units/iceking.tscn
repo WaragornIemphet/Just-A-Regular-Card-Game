@@ -1,0 +1,35 @@
+[gd_scene load_steps=6 format=3 uid="uid://dfxlbyexqqchg"]
+
+[ext_resource type="Texture2D" uid="uid://x4ouj444edo2" path="res://images/iceking.png" id="1_2tt6h"]
+[ext_resource type="Script" uid="uid://bhlefgsbwmobw" path="res://scripts/passive_manager.gd" id="1_itps0"]
+[ext_resource type="Script" uid="uid://bhcjvbkd8gedv" path="res://scripts/passive_apply_status.gd" id="2_2tt6h"]
+[ext_resource type="Script" uid="uid://drv1qw630ycfb" path="res://scripts/cards.gd" id="2_uyowv"]
+[ext_resource type="Script" uid="uid://c5exvocwg8ghr" path="res://ability/ability_deepfreeze.gd" id="4_ww1er"]
+
+[node name="Iceking" type="Sprite2D" groups=["cards"]]
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_2tt6h")
+script = ExtResource("2_uyowv")
+tags = Array[String](["Humanoid", "Ground", "Male"])
+card_name = "Ice King"
+tower_hp = 0
+is_melee = true
+is_ground = true
+attack_power = 15
+health = 40
+defense = 10
+block_stacks = 1
+attack_vfx = "Freeze"
+
+[node name="PassiveManager" type="Node" parent="."]
+script = ExtResource("1_itps0")
+
+[node name="Ice Touch" type="Node" parent="PassiveManager"]
+script = ExtResource("2_2tt6h")
+status_to_apply = "freeze"
+passive_name = "Ice Touch"
+
+[node name="Ability" type="Node" parent="."]
+script = ExtResource("4_ww1er")
+initial_cooldown = 2
+max_cooldown = 4

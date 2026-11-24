@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://m4ffeppk5nox"]
+
+[ext_resource type="Texture2D" uid="uid://b7thblyn3o0m3" path="res://images/indy_cards/zsu 23 4.png" id="1_p4jl2"]
+[ext_resource type="Script" uid="uid://drv1qw630ycfb" path="res://scripts/cards.gd" id="2_nff4x"]
+[ext_resource type="AudioStream" uid="uid://b7y2ikjilhhn2" path="res://audio/sfx/shika.mp3" id="3_vlwv8"]
+
+[node name="zsu_23_4" type="Sprite2D" groups=["cards"]]
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_p4jl2")
+script = ExtResource("2_nff4x")
+tags = Array[String](["Mechanical", "Ground", "Anti-Air"])
+card_name = "ZSU-23-4"
+base_mode_name = "SPAAG"
+is_ranged = true
+is_ground = true
+is_anti_air = true
+attack_power = 20
+health = 100
+defense = 50
+crit_chance = 5
+block_stacks = 1
+evasion = 10
+attack_vfx = "Gunfire"
+attack_sfx = Array[AudioStream]([ExtResource("3_vlwv8")])
+attack_times = 4
+burst_count = 4
+burst_delay = 0.05
+immune_to_poison = true

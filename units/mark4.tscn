@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://m8q85lhq1bb4"]
+
+[ext_resource type="Texture2D" uid="uid://cndiqh2yh6jwr" path="res://images/mark4.png" id="1_62gv5"]
+[ext_resource type="Script" uid="uid://drv1qw630ycfb" path="res://scripts/cards.gd" id="2_n132e"]
+[ext_resource type="AudioStream" uid="uid://3t2a6igbbjga" path="res://audio/sfx/cannon.mp3" id="3_n132e"]
+
+[node name="Mark4" type="Sprite2D" groups=["cards"]]
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_62gv5")
+script = ExtResource("2_n132e")
+tags = Array[String](["Mechanical", "Armored", "Ground", "Artillery"])
+card_name = "Mark IV"
+tower_hp = 0
+is_ranged = true
+is_ground = true
+attack_power = 20
+health = 80
+defense = 80
+block_stacks = 2
+attack_vfx = "Explosion"
+attack_sfx = Array[AudioStream]([ExtResource("3_n132e")])
+attack_times = 2
+splash_damage = true

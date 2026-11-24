@@ -1,0 +1,38 @@
+[gd_scene load_steps=7 format=3 uid="uid://lgx3aj50iycd"]
+
+[ext_resource type="Texture2D" uid="uid://db7rypynkwcda" path="res://images/senator.png" id="1_c7gh1"]
+[ext_resource type="Script" uid="uid://drv1qw630ycfb" path="res://scripts/cards.gd" id="2_cfk2d"]
+[ext_resource type="Script" uid="uid://bhlefgsbwmobw" path="res://scripts/passive_manager.gd" id="3_c4hmn"]
+[ext_resource type="AudioStream" uid="uid://b5vk0bdshlt4y" path="res://audio/music/armstrong.mp3" id="3_swmam"]
+[ext_resource type="Script" uid="uid://bdu7qmydx4pwd" path="res://passive/nanomachines.gd" id="4_v2k5x"]
+[ext_resource type="Texture2D" uid="uid://bnbg86ofxx6mu" path="res://images/armstrong.png" id="5_v2k5x"]
+
+[node name="Senator" type="Sprite2D" groups=["cards"]]
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_c7gh1")
+script = ExtResource("2_cfk2d")
+tags = Array[String](["Male", "Humanoid", "Ground"])
+card_name = "Senator Armstrong"
+is_melee = true
+is_ground = true
+attack_power = 50
+health = 500
+is_boss = true
+boss_theme = ExtResource("3_swmam")
+immune_to_stun = true
+immune_to_freeze = true
+immune_to_burn = true
+immune_to_poison = true
+immune_to_wet = true
+immune_to_bleed = true
+immune_to_confusion = true
+immune_to_slow = true
+immune_to_disable = true
+
+[node name="PassiveManager" type="Node" parent="."]
+script = ExtResource("3_c4hmn")
+
+[node name="Nanomachines" type="Node" parent="PassiveManager"]
+script = ExtResource("4_v2k5x")
+phase2_texture = ExtResource("5_v2k5x")
+passive_name = "Nanomachines"

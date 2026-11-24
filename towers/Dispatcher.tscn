@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://dgrco6nbpxmgr"]
+
+[ext_resource type="Texture2D" uid="uid://3kwbpj84e40" path="res://images/dispatcher1.png" id="1_wmqgi"]
+[ext_resource type="Script" uid="uid://cct0qihhlvmi" path="res://dispatcher.gd" id="2_wmqgi"]
+
+[node name="Dispatcher" type="Sprite2D" groups=["cards"]]
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_wmqgi")
+script = ExtResource("2_wmqgi")
+card_name = "Dispatcher"
+is_tower = true
+is_ground = true
+attack_power = 0
+health = 0
+crit_multiplier = 0.0
+attack_times = 0
+debuff_immune = true

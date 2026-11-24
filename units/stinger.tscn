@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://ckytxtfeckpl7"]
+
+[ext_resource type="Texture2D" uid="uid://m46xbv4gsgus" path="res://images/neu cards/FIM92_Stinger.jpg" id="1_htx52"]
+[ext_resource type="Script" uid="uid://drv1qw630ycfb" path="res://scripts/cards.gd" id="2_ggtw1"]
+[ext_resource type="AudioStream" uid="uid://bs1jpoqnuxi0q" path="res://audio/sfx/rocketfire1.wav" id="3_bmupt"]
+
+[node name="Fim92Stinger" type="Sprite2D" groups=["cards"]]
+position = Vector2(0, -8)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_htx52")
+script = ExtResource("2_ggtw1")
+tags = Array[String](["Humanoid", "Male", "Ground", "Anti-Air"])
+card_name = "Stinger"
+can_swap = true
+is_ranged = true
+is_ground = true
+is_sam = true
+attack_power = 300
+health = 100
+attack_vfx = "Explosion"
+attack_sfx = Array[AudioStream]([ExtResource("3_bmupt")])

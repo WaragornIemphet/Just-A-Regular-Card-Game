@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://c061lu6k3kshp"]
+
+[ext_resource type="Texture2D" uid="uid://d0sghhj6fdihg" path="res://images/sniper_ww1.png" id="1_jiwym"]
+[ext_resource type="Script" uid="uid://drv1qw630ycfb" path="res://scripts/cards.gd" id="2_e3nah"]
+
+[node name="Recon" type="Sprite2D" groups=["cards"]]
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_jiwym")
+script = ExtResource("2_e3nah")
+tags = Array[String](["Infantry", "Humanoid", "Male", "Ground"])
+card_name = "Recon"
+is_ranged = true
+is_ground = true
+attack_power = 50
+health = 50
+crit_chance = 60
+evasion = 5
+attack_vfx = "Gunfire"

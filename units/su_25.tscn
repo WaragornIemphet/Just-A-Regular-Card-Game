@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=3 uid="uid://b4wi3x12jtlo5"]
+
+[ext_resource type="Texture2D" uid="uid://bbqsgb1f1nlwb" path="res://images/neu cards/SU_25.jpg" id="1_7osey"]
+[ext_resource type="Script" uid="uid://drv1qw630ycfb" path="res://scripts/cards.gd" id="2_fghub"]
+
+[node name="Su25" type="Sprite2D" groups=["cards"]]
+position = Vector2(0, -8)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_7osey")
+script = ExtResource("2_fghub")
+tags = Array[String](["Air", "Aircraft", "Mechanical"])
+card_name = "SU-25 Frogfoot"
+can_swap = true
+is_ranged = true
+has_depth_charge = true
+is_air = true
+attack_power = 50
+health = 200
+defense = 200
+crit_chance = 3
+evasion = 5
+attack_vfx = "Explosion"
+attack_times = 6
+splash_damage = true

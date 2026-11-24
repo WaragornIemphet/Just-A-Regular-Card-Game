@@ -1,0 +1,159 @@
+[gd_scene load_steps=8 format=3 uid="uid://d2qn6uoc6tru5"]
+
+[ext_resource type="Texture2D" uid="uid://t1njgbnpefk7" path="res://images/akashiro.png" id="1_6ij03"]
+[ext_resource type="Script" uid="uid://ce3ekl5ntc3yg" path="res://ability/ability_judgement_cut.gd" id="2_iaigt"]
+[ext_resource type="AudioStream" uid="uid://bwglhys5s4alt" path="res://audio/sfx/jmc.mp3" id="3_fnpqk"]
+[ext_resource type="AudioStream" uid="uid://cc622j2mmphdj" path="res://audio/sfx/burydelight.mp3" id="5_gsypg"]
+[ext_resource type="AudioStream" uid="uid://c5y34dlwoixt8" path="res://audio/sfx/jmcendslash.mp3" id="5_pnxhl"]
+[ext_resource type="AudioStream" uid="uid://cjnmfy55pf4gi" path="res://audio/sfx/jmcendbreak.mp3" id="6_k8r4w"]
+
+[sub_resource type="GDScript" id="GDScript_k8r4w"]
+script/source = "extends \"res://scripts/cards.gd\"
+
+func attack_bump(target_pos: Vector2):
+	# 1. Do the normal bump animation from the base cards script
+	super.attack_bump(target_pos)
+	
+	# 2. Spawn the localized dark spherical cut!
+	_spawn_normal_judgement_cut(target_pos)
+
+
+func _spawn_normal_judgement_cut(target_pos: Vector2):
+	# Create a temporary container for all the VFX
+	var vfx_node = Node2D.new()
+	vfx_node.z_index = 60 # Sits above the target card
+	get_tree().current_scene.add_child(vfx_node)
+
+	# =========================================================
+	# 1. THE DARK SPHERE (The Void)
+	# =========================================================
+	var void_circle = Panel.new()
+	var style = StyleBoxFlat.new()
+	
+	# Deep void blue/black
+	style.bg_color = Color(0.02, 0.02, 0.08, 0.85)
+	
+	# Setting max corner radius turns a square Panel into a perfect circle!
+	style.corner_radius_top_left = 100
+	style.corner_radius_top_right = 100
+	style.corner_radius_bottom_left = 100
+	style.corner_radius_bottom_right = 100
+	
+	# Add a slight glowing blue rim to mimic dimensional distortion
+	style.border_width_left = 2
+	style.border_width_right = 2
+	style.border_width_top = 2
+	style.border_width_bottom = 2
+	style.border_color = Color(0.2, 0.6, 1.0, 0.6)
+	style.border_blend = true
+
+	void_circle.add_theme_stylebox_override(\"panel\", style)
+	void_circle.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	
+	# Start at size 0 (invisible) and expand
+	void_circle.size = Vector2(0, 0)
+	void_circle.position = target_pos
+	vfx_node.add_child(void_circle)
+
+	# Expand the void outward from the center very quickly
+	var sphere_size = 110 # How big the sphere gets
+	var t = get_tree().create_tween()
+	t.tween_property(void_circle, \"size\", Vector2(sphere_size, sphere_size), 0.05)
+	t.parallel().tween_property(void_circle, \"position\", target_pos - Vector2(sphere_size / 2.0, sphere_size / 2.0), 0.05)
+
+	# =========================================================
+	# 2. THE INNER SLASHES
+	# =========================================================
+	# Spawn 8 rapid slashes confined tightly inside the sphere
+	for i in range(8):
+		var slash = ColorRect.new()
+		var is_white = (randi() % 3 == 0)
+		slash.color = Color(1.0, 1.0, 1.0, 0.95) if is_white else Color(0.3, 0.8, 1.0, 0.85)
+		
+		# Keep them short so they stay inside the void
+		slash.size = Vector2(randf_range(60, 100), randf_range(2, 4))
+		
+		# Randomize angle and cluster them right around the target center
+		slash.position = target_pos - (slash.size / 2) + Vector2(randf_range(-25, 25), randf_range(-25, 25))
+		slash.rotation = randf_range(0, TAU)
+		slash.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		vfx_node.add_child(slash)
+
+		# Make them fade out rapidly at slightly staggered times
+		var slash_t = get_tree().create_tween()
+		slash_t.tween_property(slash, \"color\", Color(1, 1, 1, 0), 0.15).set_delay(randf_range(0.0, 0.05))
+
+	# Wait a tiny fraction of a second for the slashes to finish
+	await get_tree().create_timer(0.15).timeout
+
+	# =========================================================
+	# 3. THE LOCAL SHATTER
+	# =========================================================
+	# Flash the sphere white to simulate breaking
+	style.bg_color = Color(1.0, 1.0, 1.0, 0.9)
+	style.border_color = Color(1, 1, 1, 0)
+	
+	# Spawn mini glass shards exploding outward from the sphere
+	for i in range(6):
+		var shard = Polygon2D.new()
+		shard.color = Color(0.7, 0.9, 1.0, 0.8) # Light icy blue glass
+		
+		var offset = Vector2(randf_range(-30, 30), randf_range(-30, 30))
+		shard.polygon = PackedVector2Array([
+			target_pos + offset,
+			target_pos + offset + Vector2(randf_range(10, 35), randf_range(-20, 20)),
+			target_pos + offset + Vector2(randf_range(-20, 20), randf_range(10, 35))
+		])
+		vfx_node.add_child(shard)
+		
+		# Blast shards outward
+		var shard_t = get_tree().create_tween()
+		shard_t.set_parallel(true)
+		var dir = (shard.polygon[0] - target_pos).normalized()
+		if dir == Vector2.ZERO: dir = Vector2.UP
+		
+		shard_t.tween_property(shard, \"position\", dir * randf_range(40, 100), 0.2).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT)
+		shard_t.tween_property(shard, \"rotation\", randf_range(-1.5, 1.5), 0.2)
+		shard_t.tween_property(shard, \"color\", Color(1, 1, 1, 0), 0.2)
+
+	# Fade the white sphere completely out
+	var t_end = get_tree().create_tween()
+	t_end.tween_property(void_circle, \"modulate\", Color(1, 1, 1, 0), 0.15)
+	
+	# Delete the whole VFX container after the shatter is done
+	await get_tree().create_timer(0.2).timeout
+	vfx_node.queue_free()
+"
+
+[node name="Akashiro" type="Sprite2D" groups=["cards"]]
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_6ij03")
+script = SubResource("GDScript_k8r4w")
+card_name = "Akashiro"
+is_melee = true
+is_ground = true
+attack_power = 25
+health = 100
+defense = 100
+crit_chance = 10
+crit_multiplier = 5.0
+parry_stacks = 4
+evasion = 25
+attack_vfx = "Judgement Cut"
+attack_sfx = Array[AudioStream]([ExtResource("3_fnpqk")])
+attack_times = 4
+burst_count = 2
+burst_delay = 0.1
+base_ignore_def = true
+outgoing_damage_type = "pierce"
+immune_to_freeze = true
+
+[node name="Ability" type="Node" parent="."]
+script = ExtResource("2_iaigt")
+sfx_unsheathe = ExtResource("5_gsypg")
+sfx_slashes = ExtResource("5_pnxhl")
+sfx_shatter = ExtResource("6_k8r4w")
+ability_name = "Judgement Cut End"
+initial_cooldown = 3
+max_cooldown = 10
+requires_target = false

@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://forygpuaqstd"]
+
+[ext_resource type="Texture2D" uid="uid://c5nek5nvgqtcc" path="res://images/indy_cards/mg42.png" id="1_m8jau"]
+[ext_resource type="Script" uid="uid://drv1qw630ycfb" path="res://scripts/cards.gd" id="2_ns67g"]
+[ext_resource type="AudioStream" uid="uid://b8wp8wcjyvfdk" path="res://audio/sfx/mg42.mp3" id="3_ns67g"]
+
+[node name="Mg42" type="Sprite2D" groups=["cards"]]
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_m8jau")
+script = ExtResource("2_ns67g")
+tags = Array[String](["Humanoid", "Male", "Ground", "Infantry"])
+card_name = "MG-42"
+tower_hp = 0
+is_ranged = true
+is_ground = true
+attack_power = 10
+health = 50
+defense = 10
+crit_chance = 5
+block_stacks = 1
+evasion = 5
+attack_sfx = Array[AudioStream]([ExtResource("3_ns67g")])
+attack_times = 5
+burst_count = 3
+burst_delay = 0.05
+immune_to_wet = true

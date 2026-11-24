@@ -1,0 +1,37 @@
+[gd_scene load_steps=5 format=3 uid="uid://wx5k0bg5xaxx"]
+
+[ext_resource type="Script" uid="uid://drv1qw630ycfb" path="res://scripts/cards.gd" id="1_f21hn"]
+[ext_resource type="Texture2D" uid="uid://bcxxpn6cdqqg8" path="res://images/yamatoaz.png" id="1_jewwg"]
+[ext_resource type="AudioStream" uid="uid://bcovrohqears5" path="res://audio/sfx/yamato.mp3" id="3_7ptxi"]
+[ext_resource type="Script" uid="uid://ccm0rbhpu21k7" path="res://ability/ability_46cm_salvo.gd" id="3_mbqhd"]
+
+[node name="YamatoAz" type="Sprite2D" groups=["cards"]]
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_jewwg")
+script = ExtResource("1_f21hn")
+tags = Array[String](["Humanoid", "Naval", "Female"])
+card_name = "Yamato (AZ)"
+base_mode_name = "46cm Gun"
+tower_hp = 0
+is_ranged = true
+is_naval = true
+attack_power = 45
+health = 100
+defense = 65
+crit_chance = 20
+block_stacks = 2
+evasion = 10
+attack_vfx = "Explosion"
+attack_sfx = Array[AudioStream]([ExtResource("3_7ptxi")])
+attack_times = 3
+burst_count = 3
+burst_delay = 0.0
+max_attack_cooldown = 2
+splash_damage = true
+
+[node name="Ability" type="Node" parent="."]
+script = ExtResource("3_mbqhd")
+ability_name = "46cm Salvo"
+initial_cooldown = 4
+max_cooldown = 4
+requires_target = false

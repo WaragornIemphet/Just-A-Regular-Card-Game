@@ -1,0 +1,21 @@
+Blind debuffs didnt stop AI from attacking [FIXED]
+
+Bleed stacks are bugged
+
+Yamato(AZ) passive is inconclusive
+
+AI attack Towers more than once with multi-attack cards
+
+AI kept hybrid as last target [FIXED]
+
+I LOVE TREES don't have passive, need to add melee and ranged attack type.
+
+Disable bugs [FIXED]
+
+Add debuffs must be +1 turn of the original card, that's how debuff manager works in this digital verison.
+
+Cooldowns ticking down while in hand.
+
+Wet status isnt working
+
+There's no Disable Immunity in the logic

@@ -1,0 +1,35 @@
+[gd_scene load_steps=6 format=3 uid="uid://b04f4klk6qgve"]
+
+[ext_resource type="Texture2D" uid="uid://bavrg3jw8xkef" path="res://images/bm13n.png" id="1_wo5au"]
+[ext_resource type="Script" uid="uid://drv1qw630ycfb" path="res://scripts/cards.gd" id="2_3qr3x"]
+[ext_resource type="Script" uid="uid://bhlefgsbwmobw" path="res://scripts/passive_manager.gd" id="3_g0ind"]
+[ext_resource type="Script" uid="uid://bukasenotnfs1" path="res://passive/passive_indirect_fire.gd" id="4_dsbpc"]
+[ext_resource type="Script" uid="uid://bu3cjo3tey4le" path="res://ability/ability_katyusha.gd" id="6_t451c"]
+
+[node name="Bm13n" type="Sprite2D" groups=["cards"]]
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_wo5au")
+script = ExtResource("2_3qr3x")
+tags = Array[String](["Mechanical", "Armored", "Ground", "Artillery"])
+card_name = "Bm-13N"
+is_ranged = true
+is_ground = true
+attack_power = 15
+health = 50
+defense = 40
+evasion = 20
+attack_times = 0
+splash_damage = true
+
+[node name="PassiveManager" type="Node" parent="."]
+script = ExtResource("3_g0ind")
+
+[node name="Artillery" type="Node" parent="PassiveManager"]
+script = ExtResource("4_dsbpc")
+
+[node name="Ability" type="Node" parent="."]
+script = ExtResource("6_t451c")
+ability_name = "Katyusha Barrage"
+initial_cooldown = 3
+max_cooldown = 6
+requires_target = false

@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://dh0rjq2npkp2r"]
+
+[ext_resource type="Texture2D" uid="uid://c47mcoxvtdobw" path="res://images/indy_cards/igla.png" id="1_alvj2"]
+[ext_resource type="Script" uid="uid://drv1qw630ycfb" path="res://scripts/cards.gd" id="2_miusa"]
+[ext_resource type="AudioStream" uid="uid://bs1jpoqnuxi0q" path="res://audio/sfx/rocketfire1.wav" id="3_alvj2"]
+
+[node name="Igla" type="Sprite2D" groups=["cards"]]
+position = Vector2(-7.99997, 8.00002)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_alvj2")
+script = ExtResource("2_miusa")
+tags = Array[String](["Humanoid", "Male", "Ground", "Anti-Air"])
+card_name = "Igla"
+can_swap = true
+is_ranged = true
+is_ground = true
+is_sam = true
+attack_power = 300
+health = 100
+defense = 20
+crit_chance = 20
+attack_sfx = Array[AudioStream]([ExtResource("3_alvj2")])

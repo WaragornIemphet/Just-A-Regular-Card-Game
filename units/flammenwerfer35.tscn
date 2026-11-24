@@ -1,0 +1,41 @@
+[gd_scene load_steps=8 format=3 uid="uid://61fh3wjv1cmk"]
+
+[ext_resource type="Texture2D" uid="uid://cnsa42eaqr8jy" path="res://images/flammenwerfer35.png" id="1_7csr7"]
+[ext_resource type="Script" uid="uid://drv1qw630ycfb" path="res://scripts/cards.gd" id="1_rnjcy"]
+[ext_resource type="Script" uid="uid://bhlefgsbwmobw" path="res://scripts/passive_manager.gd" id="2_71087"]
+[ext_resource type="Script" uid="uid://pydfkqbdinek" path="res://passive/passive_flaming_weapon.gd" id="3_2n4xk"]
+[ext_resource type="AudioStream" uid="uid://cxps5krd76kgn" path="res://audio/sfx/flame.mp3" id="3_coojj"]
+[ext_resource type="Script" uid="uid://h86gmlal8dyq" path="res://scripts/debuff_manager.gd" id="4_7csr7"]
+[ext_resource type="Script" uid="uid://bhcjvbkd8gedv" path="res://scripts/passive_apply_status.gd" id="4_hiorm"]
+
+[node name="Flammenwerfer 35" type="Sprite2D" groups=["cards"]]
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_7csr7")
+script = ExtResource("1_rnjcy")
+tags = Array[String](["Humanoid", "Ground", "Male", "Infantry"])
+card_name = "Flammenwerfer 35"
+is_ranged = true
+is_ground = true
+attack_power = 15
+health = 30
+defense = 5
+attack_vfx = "Fire"
+attack_sfx = Array[AudioStream]([ExtResource("3_coojj")])
+burst_count = 5
+outgoing_damage_type = "burn"
+
+[node name="PassiveManager" type="Node" parent="."]
+script = ExtResource("2_71087")
+
+[node name="FireDMG" type="Node" parent="PassiveManager"]
+script = ExtResource("4_hiorm")
+status_to_apply = "burn"
+potency = 30
+passive_name = "Flamethrower"
+
+[node name="FireConversion" type="Node" parent="PassiveManager"]
+script = ExtResource("3_2n4xk")
+passive_name = "Fire"
+
+[node name="DebuffManager" type="Node" parent="."]
+script = ExtResource("4_7csr7")

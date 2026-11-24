@@ -1,0 +1,33 @@
+[gd_scene load_steps=4 format=3 uid="uid://da4iqpy475ukv"]
+
+[ext_resource type="Texture2D" uid="uid://dqy805mabis2u" path="res://images/calamitasclone.png" id="1_q0bnw"]
+[ext_resource type="Script" uid="uid://drv1qw630ycfb" path="res://scripts/cards.gd" id="2_x1n1w"]
+[ext_resource type="AudioStream" uid="uid://csb8uiqkvh5yk" path="res://audio/music/calamitas.mp3" id="3_qd02p"]
+
+[node name="CalamitasClone" type="Sprite2D" groups=["cards"]]
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_q0bnw")
+script = ExtResource("2_x1n1w")
+tags = Array[String](["Female", "Mage", "Humanoid", "Magic", "Dark"])
+card_name = "Calamitas Clone"
+is_ranged = true
+is_ground = true
+is_anti_air = true
+attack_power = 40
+health = 1000
+defense = 200
+crit_chance = 50
+extra_heal = 500
+evasion = 5
+attack_vfx = "Brimstone"
+is_boss = true
+boss_theme = ExtResource("3_qd02p")
+attack_times = 2
+immune_to_burn = true
+immune_to_poison = true
+immune_to_curse = true
+immune_to_taunt = true
+immune_to_wet = true
+immune_to_bleed = true
+immune_to_confusion = true
+immune_to_blind = true

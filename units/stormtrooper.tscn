@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://d4el8431553rh"]
+
+[ext_resource type="Texture2D" uid="uid://da7rfon16s6lh" path="res://images/stormtrooper_ww1.png" id="1_nyh5x"]
+[ext_resource type="Script" uid="uid://drv1qw630ycfb" path="res://scripts/cards.gd" id="2_2q32y"]
+
+[node name="Stormtrooper" type="Sprite2D" groups=["cards"]]
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_nyh5x")
+script = ExtResource("2_2q32y")
+tags = Array[String](["Humanoid", "Infantry", "Ground", "Male", "GasMask"])
+card_name = "Sturmtruppen"
+tower_hp = 0
+is_ranged = true
+is_ground = true
+attack_power = 15
+health = 50
+defense = 5
+crit_chance = 10
+evasion = 30
+attack_vfx = "Gunfire"
+attack_times = 3

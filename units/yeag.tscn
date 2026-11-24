@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://cb0rffb8fj1kw"]
+
+[ext_resource type="Texture2D" uid="uid://cckm7pfhqrn17" path="res://images/yeag.png" id="1_yemtv"]
+[ext_resource type="Script" uid="uid://drv1qw630ycfb" path="res://scripts/cards.gd" id="2_eg2oh"]
+[ext_resource type="Script" uid="uid://sl0tii1a4sl2" path="res://ability/ability_overclock.gd" id="3_eg2oh"]
+
+[node name="Yeag" type="Sprite2D" groups=["cards"]]
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_yemtv")
+script = ExtResource("2_eg2oh")
+tags = Array[String](["Humanoid", "Ground", "Male", "Student"])
+card_name = "Yeag"
+is_melee = true
+is_ground = true
+attack_power = 10
+health = 50
+defense = 5
+crit_chance = 40
+attack_vfx = "Melee Hit"
+
+[node name="Ability" type="Node" parent="."]
+script = ExtResource("3_eg2oh")
+ability_name = "Grammar Corrector"
+is_one_time_use = true
+max_cooldown = 0
+requires_target = false
+is_free_action = true

@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://c8b1qfsu1kjdx"]
+
+[ext_resource type="Texture2D" uid="uid://bbsyge0rgjsiv" path="res://images/indy_cards/shotgunner.png" id="1_ifwea"]
+[ext_resource type="Script" uid="uid://drv1qw630ycfb" path="res://scripts/cards.gd" id="2_2tm0k"]
+[ext_resource type="AudioStream" uid="uid://bqlvxhe4swve7" path="res://audio/sfx/shotgun_dbl_fire.wav" id="3_2tm0k"]
+
+[node name="Shotgunner" type="Sprite2D" groups=["cards"]]
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_ifwea")
+script = ExtResource("2_2tm0k")
+tags = Array[String](["Male", "Infantry", "Humanoid", "Ground"])
+card_name = "Shotgunner"
+is_ranged = true
+is_ground = true
+attack_power = 25
+health = 50
+defense = 10
+crit_chance = 40
+crit_multiplier = 4.0
+attack_vfx = "Gunfire"
+attack_sfx = Array[AudioStream]([ExtResource("3_2tm0k")])
+splash_damage = true
+immune_to_stun = true

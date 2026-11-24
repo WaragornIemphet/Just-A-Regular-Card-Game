@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://bljcjf5ta827u"]
+
+[ext_resource type="Texture2D" uid="uid://b484d578qqu3t" path="res://images/indy_cards/a1 skyraider.png" id="1_toq3t"]
+[ext_resource type="Script" uid="uid://drv1qw630ycfb" path="res://scripts/cards.gd" id="2_3xv4b"]
+
+[node name="Skyraider" type="Sprite2D" groups=["cards"]]
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_toq3t")
+script = ExtResource("2_3xv4b")
+tags = Array[String](["Mechanical", "Air", "Aircraft"])
+card_name = "A-1 Skyraider"
+is_ranged = true
+is_air = true
+attack_power = 20
+health = 60
+defense = 30
+crit_chance = 20
+attack_vfx = "Gunfire"
+attack_times = 4

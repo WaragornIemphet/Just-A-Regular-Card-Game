@@ -1,0 +1,102 @@
+[gd_scene load_steps=2 format=3 uid="uid://bmwrv07oidg0n"]
+
+[ext_resource type="Script" uid="uid://cy3jjwmhb52hw" path="res://tower_select.gd" id="1_5ske8"]
+
+[node name="TowerSelect" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_5ske8")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.340334, 0, 0.0302217, 1)
+
+[node name="MainSplit" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 50
+
+[node name="PlayerPanel" type="VBoxContainer" parent="MainSplit"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="MainSplit/PlayerPanel"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "PLAYER"
+
+[node name="P1Portrait" type="TextureRect" parent="MainSplit/PlayerPanel"]
+custom_minimum_size = Vector2(250, 350)
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="P1Name" type="Label" parent="MainSplit/PlayerPanel"]
+layout_mode = 2
+text = "?"
+horizontal_alignment = 1
+
+[node name="BtnSkin" type="Button" parent="MainSplit/PlayerPanel"]
+layout_mode = 2
+text = "👕 Change Skin (Default)"
+
+[node name="RosterPanel" type="VBoxContainer" parent="MainSplit"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="MainSplit/RosterPanel"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "SELECT YOUR TOWER"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RosterGrid" type="GridContainer" parent="MainSplit/RosterPanel"]
+layout_mode = 2
+columns = 3
+
+[node name="Spacer" type="Control" parent="MainSplit/RosterPanel"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="BtnLockIn" type="Button" parent="MainSplit/RosterPanel"]
+layout_mode = 2
+text = "TO BATTLE!"
+
+[node name="BtnBack" type="Button" parent="MainSplit/RosterPanel"]
+layout_mode = 2
+text = "RETURN TO MAIN MENU"
+
+[node name="EnemyPanel" type="VBoxContainer" parent="MainSplit"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="MainSplit/EnemyPanel"]
+layout_mode = 2
+text = "CPU"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="EnemyPortrait" type="TextureRect" parent="MainSplit/EnemyPanel"]
+custom_minimum_size = Vector2(250, 350)
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="EnemyName" type="Label" parent="MainSplit/EnemyPanel"]
+layout_mode = 2
+text = "?"
+horizontal_alignment = 1

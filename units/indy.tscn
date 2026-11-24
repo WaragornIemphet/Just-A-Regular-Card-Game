@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://co7r3wnt6lnvl"]
+
+[ext_resource type="Texture2D" uid="uid://cngowcgol4l6s" path="res://images/indy.png" id="1_ulvd4"]
+[ext_resource type="Script" uid="uid://drv1qw630ycfb" path="res://scripts/cards.gd" id="2_obe5x"]
+[ext_resource type="Script" uid="uid://bhlefgsbwmobw" path="res://scripts/passive_manager.gd" id="3_84t6i"]
+[ext_resource type="Script" uid="uid://bhcjvbkd8gedv" path="res://scripts/passive_apply_status.gd" id="4_0o60w"]
+
+[node name="indy" type="Sprite2D" groups=["cards"]]
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_ulvd4")
+script = ExtResource("2_obe5x")
+tags = Array[String](["Male", "Student", "Humanoid", "Ground"])
+card_name = "Indy"
+tower_hp = 0
+is_melee = true
+is_ground = true
+attack_power = 30
+health = 50
+defense = 30
+crit_chance = 20
+attack_vfx = "Fire"
+
+[node name="PassiveManager" type="Node" parent="."]
+script = ExtResource("3_84t6i")
+
+[node name="Indy" type="Node" parent="PassiveManager"]
+script = ExtResource("4_0o60w")
+status_to_apply = "burn"
+duration = 1
+potency = 5
+passive_name = "Roast"

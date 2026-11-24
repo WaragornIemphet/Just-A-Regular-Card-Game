@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://xpi1ljfhf8tg"]
+
+[ext_resource type="Script" uid="uid://drv1qw630ycfb" path="res://scripts/cards.gd" id="1_b3gvh"]
+[ext_resource type="Texture2D" uid="uid://fx4cbioq6nck" path="res://images/riflemen_ww1.png" id="1_wdfmg"]
+
+[node name="Rifleman" type="Sprite2D" groups=["cards"]]
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_wdfmg")
+script = ExtResource("1_b3gvh")
+tags = Array[String](["Humanoid", "Infantry", "Male", "Gasmask", "Ground"])
+card_name = "Rifleman"
+tower_hp = 0
+is_ranged = true
+is_ground = true
+attack_power = 40
+health = 50
+defense = 5
+crit_chance = 10
+evasion = 10
+attack_vfx = "Gunfire"

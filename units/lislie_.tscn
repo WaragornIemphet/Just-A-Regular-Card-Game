@@ -1,0 +1,62 @@
+[gd_scene load_steps=9 format=3 uid="uid://cd1yavn0cplb4"]
+
+[ext_resource type="Texture2D" uid="uid://d3mdr70i1uhjc" path="res://images/lislie.png" id="1_sok6l"]
+[ext_resource type="Script" uid="uid://drv1qw630ycfb" path="res://scripts/cards.gd" id="2_wu8eg"]
+[ext_resource type="Script" uid="uid://pcg2vt8yruje" path="res://ability/ability_lifesteal.gd" id="3_lcxt0"]
+[ext_resource type="Script" uid="uid://c0uxpmpmigc6" path="res://scripts/mode_manager.gd" id="4_fodi8"]
+[ext_resource type="Script" uid="uid://bce0p8sfmiqv2" path="res://scripts/card_mode_data.gd" id="5_hrt2x"]
+[ext_resource type="AudioStream" uid="uid://vqernfyuy6sv" path="res://audio/sfx/shotgun_fire7.wav" id="6_164s4"]
+[ext_resource type="AudioStream" uid="uid://cs2sk6tlaqe4d" path="res://audio/sfx/shotgun_fire6.wav" id="7_cwnqh"]
+
+[sub_resource type="Resource" id="Resource_lq8bt"]
+script = ExtResource("5_hrt2x")
+mode_name = "Buckshot"
+is_melee = false
+is_ranged = true
+has_depth_charge = false
+can_attack = true
+is_ground = true
+is_air = false
+is_naval = false
+is_sub_naval = false
+is_orbital = false
+is_anti_air = false
+is_sam = false
+attack_power = 50
+crit_chance = 50
+crit_multiplier = 2.0
+attack_times = 1
+max_attack_cooldown = 2
+burst_count = 1
+burst_delay = 0.2
+base_ignore_def = false
+splash_damage = true
+outgoing_damage_type = "normal"
+attack_vfx = "Gunfire"
+attack_sfx = Array[AudioStream]([ExtResource("6_164s4"), ExtResource("7_cwnqh")])
+metadata/_custom_type_script = "uid://bce0p8sfmiqv2"
+
+[node name="Lislie_" type="Sprite2D" groups=["cards"]]
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_sok6l")
+script = ExtResource("2_wu8eg")
+tags = Array[String](["Humanoid", "Female", "Ground"])
+card_name = "Lislie_"
+base_mode_name = "Melee"
+is_melee = true
+is_ground = true
+attack_power = 30
+health = 100
+defense = 30
+crit_chance = 25
+max_defense = 30
+
+[node name="Ability" type="Node" parent="."]
+script = ExtResource("3_lcxt0")
+ability_name = "Immortal Girl"
+max_cooldown = 4
+
+[node name="ModeManager" type="Node" parent="."]
+script = ExtResource("4_fodi8")
+base_mode_name = "Melee"
+alternate_modes = Array[ExtResource("5_hrt2x")]([SubResource("Resource_lq8bt")])

@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://yqa2j31e5v3j"]
+
+[ext_resource type="Texture2D" uid="uid://s3b3kmxm6a2s" path="res://images/a7v.png" id="1_vbuis"]
+[ext_resource type="Script" uid="uid://drv1qw630ycfb" path="res://scripts/cards.gd" id="2_nvpkh"]
+[ext_resource type="AudioStream" uid="uid://3t2a6igbbjga" path="res://audio/sfx/cannon.mp3" id="3_nvpkh"]
+
+[node name="A7v" type="Sprite2D" groups=["cards"]]
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_vbuis")
+script = ExtResource("2_nvpkh")
+tags = Array[String](["Mechanical", "Armored", "Ground", "Artillery"])
+card_name = "A7V"
+tower_hp = 0
+is_ranged = true
+is_ground = true
+attack_power = 40
+health = 90
+defense = 70
+crit_chance = 5
+block_stacks = 2
+attack_vfx = "Explosion"
+attack_sfx = Array[AudioStream]([ExtResource("3_nvpkh")])
+splash_damage = true

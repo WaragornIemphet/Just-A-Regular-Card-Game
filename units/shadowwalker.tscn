@@ -1,0 +1,38 @@
+[gd_scene load_steps=6 format=3 uid="uid://bcpj1w8orh263"]
+
+[ext_resource type="Texture2D" uid="uid://b3yy3up32tary" path="res://images/shadow.png" id="1_87jps"]
+[ext_resource type="Script" uid="uid://drv1qw630ycfb" path="res://scripts/cards.gd" id="1_ix2ou"]
+[ext_resource type="Script" uid="uid://bhlefgsbwmobw" path="res://scripts/passive_manager.gd" id="2_50q6t"]
+[ext_resource type="Script" uid="uid://bhcjvbkd8gedv" path="res://scripts/passive_apply_status.gd" id="3_7ifro"]
+[ext_resource type="Script" uid="uid://l4yi4wcy5jfj" path="res://ability/ability_shadowstrike.gd" id="4_7ifro"]
+
+[node name="Shadowwalker" type="Sprite2D" groups=["cards"]]
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_87jps")
+script = ExtResource("1_ix2ou")
+tags = Array[String](["Humanoid", "Shadow", "Ground", "Male"])
+card_name = "Shadow Walker"
+tower_hp = 0
+is_melee = true
+is_ground = true
+attack_power = 10
+health = 35
+evasion = 50
+attack_vfx = "Shadow"
+outgoing_damage_type = "poison"
+debuff_immune = true
+
+[node name="PassiveManager" type="Node" parent="."]
+script = ExtResource("2_50q6t")
+
+[node name="Forgotten Shadow" type="Node" parent="PassiveManager"]
+script = ExtResource("3_7ifro")
+status_to_apply = "disabled"
+duration = 1
+potency = 0
+passive_name = "Forgotten Shadow"
+
+[node name="Ability" type="Node" parent="."]
+script = ExtResource("4_7ifro")
+ability_name = "Shadow Strike"
+initial_cooldown = 1

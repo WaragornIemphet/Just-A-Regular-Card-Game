@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://bcxcvdju1vnhn"]
+
+[ext_resource type="Texture2D" uid="uid://cb3yvsna2ne0f" path="res://images/scorpion.png" id="1_ne2hk"]
+[ext_resource type="Script" uid="uid://drv1qw630ycfb" path="res://scripts/cards.gd" id="2_rmcbr"]
+[ext_resource type="Script" uid="uid://bhlefgsbwmobw" path="res://scripts/passive_manager.gd" id="3_veimr"]
+[ext_resource type="Script" uid="uid://bhcjvbkd8gedv" path="res://scripts/passive_apply_status.gd" id="4_ayyed"]
+
+[node name="Scorpion" type="Sprite2D" groups=["cards"]]
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_ne2hk")
+script = ExtResource("2_rmcbr")
+tags = Array[String](["Arthopod", "Ground"])
+card_name = "Scorpion"
+tower_hp = 0
+is_melee = true
+is_ground = true
+attack_power = 10
+health = 10
+defense = 5
+evasion = 55
+attack_vfx = "Melee Hit"
+outgoing_damage_type = "poison"
+
+[node name="PassiveManager" type="Node" parent="."]
+script = ExtResource("3_veimr")
+
+[node name="Scorpion" type="Node" parent="PassiveManager"]
+script = ExtResource("4_ayyed")
+potency = 15
+passive_name = "Venom"

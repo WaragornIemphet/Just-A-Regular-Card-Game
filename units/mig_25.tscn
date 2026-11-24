@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://bslqi6nthcmx0"]
+
+[ext_resource type="Texture2D" uid="uid://bjbr7fkx2qnje" path="res://images/neu cards/MIG_25.jpg" id="1_bb43l"]
+[ext_resource type="Script" uid="uid://drv1qw630ycfb" path="res://scripts/cards.gd" id="2_i7oug"]
+[ext_resource type="AudioStream" uid="uid://bs1jpoqnuxi0q" path="res://audio/sfx/rocketfire1.wav" id="3_3i2a3"]
+
+[node name="Mig25" type="Sprite2D" groups=["cards"]]
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_bb43l")
+script = ExtResource("2_i7oug")
+tags = Array[String](["Air", "Mechanical", "Aircraft", "Anti-Air"])
+card_name = "MIG-25 Foxbat"
+can_swap = true
+is_ranged = true
+is_air = true
+is_sam = true
+attack_power = 300
+health = 200
+defense = 100
+evasion = 10
+attack_vfx = "Explosion"
+attack_sfx = Array[AudioStream]([ExtResource("3_3i2a3")])

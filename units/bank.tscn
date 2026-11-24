@@ -1,0 +1,33 @@
+[gd_scene load_steps=4 format=3 uid="uid://dgpapexdntaj2"]
+
+[ext_resource type="Texture2D" uid="uid://bolhnykutew1k" path="res://images/bank.png" id="1_seltc"]
+[ext_resource type="Script" uid="uid://drv1qw630ycfb" path="res://scripts/cards.gd" id="2_5gp6r"]
+[ext_resource type="Script" uid="uid://dvjmbcens8r6e" path="res://ability/ability_madeinheaven.gd" id="3_5gp6r"]
+
+[node name="Bank" type="Sprite2D" groups=["cards"]]
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_seltc")
+script = ExtResource("2_5gp6r")
+tags = Array[String](["Humanoid", "Male", "Ground"])
+card_name = "Bank_2013"
+tower_hp = 0
+is_melee = true
+is_ground = true
+attack_power = 30
+health = 150
+defense = 100
+crit_chance = 50
+block_stacks = 1
+evasion = 40
+attack_vfx = "Melee Hit"
+immune_to_taunt = true
+immune_to_slow = true
+
+[node name="Ability" type="Node" parent="."]
+script = ExtResource("3_5gp6r")
+ability_name = "Made in Heaven"
+is_one_time_use = true
+initial_cooldown = 5
+max_cooldown = 5
+requires_target = false
+is_free_action = true
