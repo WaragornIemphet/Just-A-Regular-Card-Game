@@ -49,4 +49,4 @@ A tactical card game built in **Godot (GDScript)**, digitized from an original p
 This is a **non-commercial student portfolio project** created strictly for educational and university admissions purposes:
 - **Music:** All background music and audio tracks belong to their respective original creators and copyright holders.
 - **Images:** Certain card illustrations and placeholder images were sourced via Google Images and remain the property of their respective owners.
-- **Sound Effects (SFX):** All sound effects used in this project are copyright-free / royalty-free.
+- **Sound Effects (SFX):** third-party audio/visual assets used strictly for a non-commercial student portfolio project; all rights belong to their original creators.
