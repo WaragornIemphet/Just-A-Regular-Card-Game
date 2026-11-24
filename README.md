@@ -34,6 +34,7 @@ A tactical card game built in **Godot (GDScript)**, digitized from an original p
 - **Demo & Development Videos:**
   - **How to Add Modes in JARCG (VFX, SFX & ModeManager Walkthrough):** [Watch on YouTube](https://youtu.be/1MT800iYRBY)
   - **JARCG Alpha Testing (Combat & Gameplay Showcase):** [Watch on YouTube](https://youtu.be/mK3BwXMn0jg)
+  - **Additional Gameplay & QA Testing Videos:** [Open Google Drive Folder](https://drive.google.com/drive/folders/1L5-PvArrpLY0RonjGT9sOPNCsmrqO9Oe?usp=sharing)
 
 ---
 
