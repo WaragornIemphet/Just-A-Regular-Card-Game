@@ -11,7 +11,7 @@ A tactical card game built in **Godot (GDScript)**, digitized from an original p
 | Role | Contributor | Responsibilities |
 | :--- | :--- | :--- |
 | **Project Owner & Back-End Developer** | **Waragorn Iemphet** | System architecture, core battle loop, Finite State Machine (FSM), card/ability/passive/synergy managers, combat stance logic, debugging, and project management |
-| **UI / Graphic & VFX Designer** | Teammate | Visual effects (VFX), graphic assets, card visuals, and UI/UX layout |
+| **UI / Graphic & VFX Designer** | **Krit Weisarayudh** | Visual effects (VFX), graphic assets, card visuals, and UI/UX layout |
 
 ---
 
