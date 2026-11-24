@@ -30,7 +30,7 @@ A tactical card game built in **Godot (GDScript)**, digitized from an original p
 
 ## Documentation & Demo Videos
 
-- **Project Documentation (10 pages):** *Paste Google Drive / PDF link here*
+- **Project Documentation (10 pages):** [Read Full Project Documentation (PDF)](Main_Project_Documentation.pdf)
 - **Demo & QA Testing Videos (4 videos):**
   - Gameplay & Core Mechanics: *Paste YouTube / Drive link here*
   - Code & Architecture Walkthrough: *Paste YouTube / Drive link here*
