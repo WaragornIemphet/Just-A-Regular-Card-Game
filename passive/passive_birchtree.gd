@@ -15,9 +15,6 @@ func on_take_damage(amount: int, damage_type: String, attacker: Node):
 		card.show_floating_text("COUNTER!", Color.GREEN)
 		card.attack_bump(attacker.global_position)
 		
-		# ==========================================
-		# 1. PLAY THE ATTACK SOUND EFFECT
-		# ==========================================
 		if "attack_sfx" in card and card.attack_sfx.size() > 0:
 			var random_sfx = card.attack_sfx.pick_random()
 			if random_sfx != null:
@@ -28,9 +25,6 @@ func on_take_damage(amount: int, damage_type: String, attacker: Node):
 				sfx_player.play()
 				sfx_player.finished.connect(sfx_player.queue_free)
 		
-		# ==========================================
-		# 2. FULL-SCREEN TREE JUMPSCARE
-		# ==========================================
 		var jumpscare_layer = CanvasLayer.new()
 		jumpscare_layer.layer = 100 # Put it on the very front layer!
 		
@@ -42,15 +36,10 @@ func on_take_damage(amount: int, damage_type: String, attacker: Node):
 		jumpscare_layer.add_child(tex_rect)
 		card.add_child(jumpscare_layer)
 		
-		# Set a timer to delete the jumpscare after exactly 2 seconds
 		get_tree().create_timer(2.0).timeout.connect(jumpscare_layer.queue_free)
 		
-		# ==========================================
-		# 3. APPLY DAMAGE TO ATTACKER
-		# ==========================================
 		await get_tree().create_timer(0.1).timeout
 		
-		# ---> NEW: Catch the ghost if the first burst counter-attack already killed him! <---
 		if not is_instance_valid(attacker) or attacker.is_queued_for_deletion():
 			return
 		
@@ -69,7 +58,6 @@ func on_take_damage(amount: int, damage_type: String, attacker: Node):
 		if dmg > 0:
 			attacker.take_damage(dmg, card.outgoing_damage_type, card)
 		
-		# Safety check before restoring block stacks!
 		if is_instance_valid(attacker) and not attacker.is_queued_for_deletion():
 			attacker.block_stacks = old_block
 			attacker.parry_stacks = old_parry

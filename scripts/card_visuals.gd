@@ -3,7 +3,6 @@ class_name CardVisuals
 
 @onready var card = get_parent()
 
-# --- ANIMATION VARIABLES ---
 var home_position: Vector2 = Vector2.ZERO
 var hover_tween: Tween
 var base_z_index: int = 0
@@ -27,14 +26,12 @@ func hover_enter_anim():
 	card.z_index = 10 
 	if hover_tween: hover_tween.kill()
 	hover_tween = create_tween()
-	# Pops the card up by 120 pixels
 	hover_tween.tween_property(card, "global_position:y", home_position.y - 120, 0.15).set_trans(Tween.TRANS_SINE)
 
 func hover_exit_anim():
 	card.z_index = base_z_index 
 	if hover_tween: hover_tween.kill()
 	hover_tween = create_tween()
-	# Returns the card to its resting position
 	hover_tween.tween_property(card, "global_position:y", home_position.y, 0.15).set_trans(Tween.TRANS_SINE)
 	
 

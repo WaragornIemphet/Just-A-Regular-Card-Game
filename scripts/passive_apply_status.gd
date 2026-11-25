@@ -1,13 +1,11 @@
 extends BasePassive
 class_name PassiveApplyStatus
 
-# --- INSPECTOR SETTINGS ---
 @export_enum("poison", "burn", "curse", "corrosion", "stun", "freeze", "disabled", "bleed", "wet", "confusion", "blind", "shell shocked", "slow") var status_to_apply: String = "poison"
 
 @export var duration: int = 2 
 @export var potency: int = 1  # How much DMG it deals (or how much DEF corrosion shreds)
 
-# ==========================================
 func on_attack(target: Node, damage: int):
 	if target.debuffs != null:
 		if status_to_apply == "poison":
@@ -17,10 +15,8 @@ func on_attack(target: Node, damage: int):
 		elif status_to_apply == "curse":
 			target.debuffs.apply_curse(duration, potency)
 		elif status_to_apply == "corrosion":
-			# Corrosion doesn't use duration, it permanently shreds stats based on potency!
 			target.debuffs.apply_corrosion(potency)
 			
-		# --- NEW CROWD CONTROL EFFECTS ---
 		elif status_to_apply == "stun":
 			target.debuffs.apply_stun(duration)
 		elif status_to_apply == "freeze":

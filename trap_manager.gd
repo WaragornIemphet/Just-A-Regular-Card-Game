@@ -20,8 +20,6 @@ func execute_trap(trap_card: Node, target: Node, is_player: bool):
 		
 	manager.log_event("⚡ SPELL ACTIVATED: " + trap_card.card_name.to_upper() + " ⚡")
 	
-	# --- VISUAL JUICE ---
-	# Reveal the card and float it directly in the center of the screen
 	trap_card.show()
 	trap_card.z_index = 100
 	var center_pos = trap_card.get_viewport_rect().size / 2
@@ -34,11 +32,9 @@ func execute_trap(trap_card: Node, target: Node, is_player: bool):
 	if trap_card.has_method("buff_animation"): 
 		trap_card.buff_animation()
 		
-	# --- EXECUTION ---
 	if trap_card.ability_node != null:
 		trap_card.ability_node.execute(trap_card, target, manager)
 		
-	# Dramatic pause for the spell to resolve, then send it to the shadow realm!
 	await get_tree().create_timer(1.2).timeout
 	trap_card.queue_free()
 	

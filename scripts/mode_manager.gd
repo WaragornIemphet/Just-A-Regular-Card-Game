@@ -9,13 +9,11 @@ var original_stats_saved: bool = false
 var mode_cooldowns: Array[int] = [] # Tracks current CD for ALL modes
 var initialized: bool = false
 
-# --- THE "ANCHOR" VARIABLES FOR MODE 1 ---
 var orig_is_melee: bool
 var orig_is_ranged: bool
 var orig_has_depth_charge: bool
 var orig_can_attack: bool
 
-# ... (Domain Variables)
 var orig_is_ground: bool
 var orig_is_air: bool
 var orig_is_naval: bool
@@ -24,7 +22,6 @@ var orig_is_orbital: bool
 var orig_is_anti_air: bool
 var orig_is_sam: bool
 
-# ... (Stat Variables)
 var orig_attack_power: int
 var orig_crit_chance: int
 var orig_crit_multiplier: float
@@ -33,7 +30,6 @@ var orig_max_attack_cooldown: int # <--- NEW
 var orig_burst_count: int
 var orig_burst_delay: float
 
-# ... (ETC Variables)
 var orig_base_ignore_def: bool
 var orig_splash_damage: bool
 var orig_outgoing_damage_type: String
@@ -50,7 +46,6 @@ func cycle_mode(card: Node2D) -> int:
 	if alternate_modes.size() == 0: return 1
 	_init_cooldowns(alternate_modes.size() + 1)
 
-	# 1. CACHE MODE 1 STATS ON FIRST CLICK
 	if not original_stats_saved:
 		orig_is_melee = card.is_melee
 		orig_is_ranged = card.is_ranged
@@ -83,13 +78,10 @@ func cycle_mode(card: Node2D) -> int:
 		
 		original_stats_saved = true
 
-	# ---> SAVE OUTGOING MODE'S CURRENT COOLDOWN <---
 	mode_cooldowns[current_index] = card.current_attack_cooldown
 
-	# 2. CYCLE TO NEXT MODE
 	current_index = (current_index + 1) % (alternate_modes.size() + 1)
 
-	# 3. APPLY STATS TO THE CARD
 	if current_index == 0:
 		card.is_melee = orig_is_melee
 		card.is_ranged = orig_is_ranged
@@ -151,12 +143,10 @@ func cycle_mode(card: Node2D) -> int:
 		if "attack_vfx" in card: card.attack_vfx = cur.attack_vfx
 		if "attack_sfx" in card: card.attack_sfx = cur.attack_sfx
 
-	# ---> LOAD INCOMING MODE'S CURRENT COOLDOWN <---
 	card.current_attack_cooldown = mode_cooldowns[current_index]
 
 	return current_index + 1
 
-# Automatically called by the card to decrement hidden modes!
 func tick_hidden_cooldowns():
 	if not initialized: return
 	for i in range(mode_cooldowns.size()):
@@ -164,9 +154,6 @@ func tick_hidden_cooldowns():
 			if mode_cooldowns[i] > 0:
 				mode_cooldowns[i] -= 1
 				
-# ==========================================
-# MULTI-MODE ATTACK TRACKING
-# ==========================================
 @export_group("Advanced Mechanics")
 @export var exhaust_only_after_all_modes: bool = false
 var modes_attacked_this_turn: Array[int] = []

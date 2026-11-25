@@ -37,7 +37,6 @@ var sub_turn_count: int = 0
 @onready var btn_restart = $UI.get_node_or_null("GameOverPanel/RestartButton")
 @onready var btn_main_menu = $UI.get_node_or_null("GameOverPanel/BtnMainMenu")
 
-# AUDIO SLIDERS
 @onready var master_slider = %MasterSlider
 @onready var ui_slider = %UISlider
 @onready var sfx_slider = %SFXSlider
@@ -48,7 +47,6 @@ var sub_turn_count: int = 0
 @onready var sfx_value = %SFXValue
 @onready var music_value = %MusicValue
 
-# IN-GAME MENU UI
 @onready var top_left_buttons = $UI/TopLeftButtons
 @onready var btn_chat = $UI/TopLeftButtons/BtnChat
 @onready var btn_settings = $UI/TopLeftButtons/BtnSettings
@@ -133,7 +131,6 @@ func _ready():
 	if deploy_manager:
 		deploy_manager.card_deployed.connect(_on_card_deployed_by_manager)
 	
-	# Connect Admin Console Input
 	if ui_console_input:
 		ui_console_input.text_submitted.connect(_on_console_input_submitted)
 	
@@ -206,7 +203,6 @@ func _on_end_turn_pressed():
 func start_player_turn(is_first_turn_of_match: bool = false):
 	if is_game_over: return
 	
-	# ---> NEW: TICK ENEMY CARDS (Because their turn just ended) <---
 	if not is_first_turn_of_match:
 		tick_team_cards(Turn.ENEMY)
 	
@@ -257,7 +253,6 @@ func start_player_turn(is_first_turn_of_match: bool = false):
 func start_enemy_turn(is_first_turn_of_match: bool = false):
 	if is_game_over: return
 	
-	# ---> NEW: TICK PLAYER CARDS (Because your turn just ended) <---
 	if not is_first_turn_of_match:
 		tick_team_cards(Turn.PLAYER)
 	
@@ -390,7 +385,6 @@ func draw_player_card() -> bool:
 func _on_deploy_pressed():
 	if selected_card == null: return
 		
-	# 1. CASTING SPELLS FROM HAND
 	if btn_deploy.text == "Cast Spell":
 		var trap_manager = get_node_or_null("TrapManager")
 		if trap_manager and not trap_manager.can_play_trap(true):
@@ -412,7 +406,6 @@ func _on_deploy_pressed():
 			cancel_selection()
 			return
 			
-	# 2. RETREATING FROM RESERVE
 	elif btn_deploy.text == "Retreat":
 		var current_hand_size = 0
 		var all_cards = get_tree().get_nodes_in_group("cards")
@@ -433,7 +426,6 @@ func _on_deploy_pressed():
 		if has_node("HandManager"): $HandManager.update_player_hand()
 		check_auto_end_turn()
 
-	# 3. SWITCHING MODES IN FRONTLINE
 	elif selected_card.row == selected_card.Row.FRONTLINE and selected_card.has_node("ModeManager"):
 		if selected_card.has_acted:
 			log_event("❌ " + selected_card.card_name + " has already acted this turn!")
@@ -445,7 +437,6 @@ func _on_deploy_pressed():
 		var mode_name_str = "Unknown Mode"
 		
 		if mode_node.current_index == 0:
-			# ---> FIX: Pull the name directly from the Card script! <---
 			mode_name_str = selected_card.base_mode_name
 		else:
 			var alt_index = mode_node.current_index - 1
@@ -483,7 +474,6 @@ func _on_card_hover_ended(card):
 func preview_ui(card):
 	ui_panel.show()
 	
-	# ---> NEW: Build the Mode Name for the Title <---
 	var final_name = card.card_name
 	var mode_node = card.get_node_or_null("ModeManager")
 	if mode_node != null and mode_node.alternate_modes.size() > 0:
@@ -495,7 +485,6 @@ func preview_ui(card):
 				if "mode_name" in current_mode_data and current_mode_data.mode_name != "":
 					current_m_name = current_mode_data.mode_name
 					
-		# ---> NEW: ADD ⛔ EMOJI TO THE HOVER NAME <---
 		if "exhaust_only_after_all_modes" in mode_node and mode_node.exhaust_only_after_all_modes:
 			if mode_node.current_index in mode_node.modes_attacked_this_turn:
 				current_m_name += " ⛔"
@@ -513,7 +502,6 @@ func preview_ui(card):
 func update_ui(card):
 	ui_panel.show()
 	
-	# ---> NEW: Build the Mode Name for the Title <---
 	var final_name = card.card_name
 	var mode_node = card.get_node_or_null("ModeManager")
 	if mode_node != null and mode_node.alternate_modes.size() > 0:
@@ -528,7 +516,6 @@ func update_ui(card):
 		
 	ui_name.text = final_name
 	
-	# DYNAMIC ATK STRING WITH COOLDOWN
 	var atk_str = str(card.attack_power)
 	if "current_attack_cooldown" in card and card.current_attack_cooldown > 0:
 		atk_str += " (⏳" + str(card.current_attack_cooldown) + ")"
@@ -553,7 +540,6 @@ func update_ui(card):
 				btn_deploy.show()
 				
 		elif card.row == card.Row.FRONTLINE:
-			# ---> FIX: No 'var' here, we already grabbed mode_node at the top of the function! <---
 			if mode_node != null and mode_node.alternate_modes.size() > 0:
 				
 				var next_index = (mode_node.current_index + 1) % (mode_node.alternate_modes.size() + 1)
@@ -570,7 +556,6 @@ func update_ui(card):
 				
 				var mode_text = m_name
 				
-				# ---> PREDICT NEXT COOLDOWN & EMOJI <---
 				var next_cd = 0
 				if "mode_cooldowns" in mode_node and mode_node.mode_cooldowns.size() > next_index:
 					next_cd = mode_node.mode_cooldowns[next_index]
@@ -578,7 +563,6 @@ func update_ui(card):
 				if next_cd > 0:
 					mode_text += " ⏳" + str(next_cd)
 					
-				# ---> NEW: ADD ⛔ TO THE BUTTON IF THE NEXT MODE IS USED <---
 				if "exhaust_only_after_all_modes" in mode_node and mode_node.exhaust_only_after_all_modes:
 					if next_index in mode_node.modes_attacked_this_turn:
 						mode_text += " ⛔"
@@ -617,18 +601,14 @@ func _on_ability_button_pressed():
 		if "requires_target" in selected_card.ability_node: needs_target = selected_card.ability_node.requires_target
 			
 		if not needs_target:
-			# ---> FIX: Check if it's a free action BEFORE we execute it! <---
 			var is_free = false
 			if "is_free_action" in selected_card.ability_node: 
 				is_free = selected_card.ability_node.is_free_action
 			
-			# NOW we execute the ability (which might delete itself)
 			selected_card.ability_node.execute(selected_card, null, self)
 			
-			# UI updates
 			update_ui(selected_card) 
 			
-			# Apply exhaustion and AP cost based on the value we saved earlier
 			if not is_free:
 				selected_card.exhaust()
 				cancel_selection()
@@ -717,7 +697,6 @@ func _on_card_clicked(card, click_type):
 				return
 
 		elif not card.is_player_card:
-			# ---> NEW: PREVENT ATTACKING IN THE SAME MODE TWICE <---
 			var m_node = selected_card.get_node_or_null("ModeManager")
 			if m_node != null and "exhaust_only_after_all_modes" in m_node and m_node.exhaust_only_after_all_modes:
 				if m_node.current_index in m_node.modes_attacked_this_turn:
@@ -732,7 +711,6 @@ func _on_card_clicked(card, click_type):
 				elif selected_card.debuffs != null and selected_card.debuffs.is_blind():
 					log_event("❌ " + selected_card.card_name + " is BLINDED and cannot target enemies!")
 					
-				# ---> CHANGE 1: ADD COOLDOWN REJECTION MESSAGE <---
 				elif "current_attack_cooldown" in selected_card and selected_card.current_attack_cooldown > 0:
 					log_event("⏳ " + selected_card.card_name + "'s attack is on cooldown for " + str(selected_card.current_attack_cooldown) + " turns!")
 					
@@ -767,7 +745,6 @@ func _on_card_clicked(card, click_type):
 					var trap_manager = get_node_or_null("TrapManager")
 					if trap_manager: trap_manager.execute_trap(selected_card, card, true)
 				else:
-					# ---> FIX: Targeted abilities now respect the Free Action rule! <---
 					var is_free = false
 					if "is_free_action" in selected_card.ability_node:
 						is_free = selected_card.ability_node.is_free_action
@@ -825,7 +802,6 @@ func _on_card_clicked(card, click_type):
 
 					attacker.attack_bump(target.global_position)
 					
-					# CLEAN MODULAR VFX CALL
 					if "attack_vfx" in attacker and attacker.attack_vfx != "None":
 						var vfx_manager = get_node_or_null("VFXManager")
 						if vfx_manager:
@@ -911,7 +887,6 @@ func _on_card_clicked(card, click_type):
 				if is_interrupted or attacker.attacks_performed >= attacker.attack_times or enemies_alive == 0 or hit_a_tower:
 					if is_instance_valid(attacker) and not attacker.is_queued_for_deletion():
 						
-						# ---> CHANGE 2: APPLY THE ATTACK COOLDOWN! <---
 						if "max_attack_cooldown" in attacker and attacker.max_attack_cooldown > 0:
 							attacker.current_attack_cooldown = attacker.max_attack_cooldown
 
@@ -922,8 +897,6 @@ func _on_card_clicked(card, click_type):
 						elif enemies_alive == 0 and attacker.attacks_performed < attacker.attack_times: 
 							print("Combo ended early: No targets remaining!")
 							
-						# ---> NEW: MULTI-MODE EXHAUSTION LOGIC <---
-						# Renamed to attacker_mode to prevent Godot from crying about duplicates!
 						var attacker_mode = attacker.get_node_or_null("ModeManager")
 						if attacker_mode != null and "exhaust_only_after_all_modes" in attacker_mode and attacker_mode.exhaust_only_after_all_modes:
 							attacker_mode.mark_current_mode_used()
@@ -931,7 +904,6 @@ func _on_card_clicked(card, click_type):
 							if attacker_mode.has_used_all_modes():
 								if not attacker.has_acted: attacker.exhaust() 
 							else:
-								# Intercepted! Reset basic attacks so he can swing again when he swaps!
 								attacker.attacks_performed = 0 
 								attacker.modulate = Color(1.0, 1.0, 1.0, 1.0) 
 								log_event("🔄 " + attacker.card_name + " is ready to fire again in a different mode!")
@@ -991,7 +963,6 @@ func _on_main_menu_pressed():
 func cancel_selection():
 	reset_highlights()
 	
-	# ---> HIDE MODULAR OUTLINES <---
 	var dm = get_node_or_null("DeployManager")
 	if dm: dm.hide_deploy_options()
 	
@@ -1336,9 +1307,6 @@ func tick_team_cards(team: Turn):
 				if card.has_method("process_round_tick"):
 					card.process_round_tick()
 					
-# ==========================================
-# IN-GAME MENU, DEBUG & AUDIO LOGIC
-# ==========================================
 
 func _on_chat_pressed():
 	var console = $UI.get_node_or_null("ConsolePanel")
@@ -1389,11 +1357,9 @@ func evaluate_boss_music():
 	var best_boss_theme: AudioStream = null
 	var winning_boss_name = ""
 
-	# ---> NEW: CHECK IF AKASHIRO'S ULTIMATE IS ACTIVE FIRST <---
 	var akashiro_overriding = false
 	for c in all_cards:
 		if is_instance_valid(c) and not c.is_queued_for_deletion():
-			# Look for Akashiro's judgment cut or special active state flag
 			if "card_name" in c and c.card_name.to_lower().contains("akashiro"):
 				if c.has_node("Ability") and c.get_node("Ability").has_method("is_judgment_active"):
 					if c.get_node("Ability").is_judgment_active():
@@ -1401,11 +1367,8 @@ func evaluate_boss_music():
 						break
 
 	if akashiro_overriding:
-		# Let Akashiro's theme take over during Judgment Cut End!
 		pass
 	else:
-		# ---> NEW: BANK SUPREMACY CHECK <---
-		# If Bank has achieved Heaven (has the MadeInHeaven passive), he instantly claims absolute audio dominance!
 		for c in all_cards:
 			if is_instance_valid(c) and not c.is_queued_for_deletion():
 				if "card_name" in c and c.card_name.contains("Bank"):
@@ -1415,7 +1378,6 @@ func evaluate_boss_music():
 						highest_power = 999999 # Forces him to be the absolute highest priority!
 						break
 
-		# Fallback to standard power evaluation if Bank isn't ascended yet
 		if highest_power != 999999:
 			for c in all_cards:
 				if is_instance_valid(c) and not c.is_queued_for_deletion():
@@ -1451,7 +1413,6 @@ func _on_card_deployed_by_manager(card, target_slot):
 		
 		log_event("Deployed " + card.card_name + " to " + target_slot)
 		
-		# Action Point Math
 		var gives_ap = (card.row == card.Row.FRONTLINE) or (card.row == card.Row.HYBRID) or is_artillery(card) or ("is_tower" in card and card.is_tower)
 		if gives_ap and actions_left < max_actions_per_turn and not is_setup_phase:
 			if card.debuffs != null and card.debuffs.is_slowed():
@@ -1465,7 +1426,6 @@ func _on_card_deployed_by_manager(card, target_slot):
 		check_auto_end_turn()
 		
 		
-# ADMIN CONSOLE COMMANDS
 
 func _on_console_input_submitted(new_text: String):
 	if ui_console_input: ui_console_input.clear()

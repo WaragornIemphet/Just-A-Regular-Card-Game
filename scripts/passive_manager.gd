@@ -3,8 +3,6 @@ class_name PassiveManager
 
 @onready var card = get_parent()
 
-# --- THE BROADCAST SYSTEM ---
-# The manager yells out to all attached passives when an event happens!
 
 func trigger_turn_start():
 	for passive in get_children():

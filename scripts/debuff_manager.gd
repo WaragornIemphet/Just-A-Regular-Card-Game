@@ -3,7 +3,6 @@ class_name DebuffManager
 
 @onready var card = get_parent()
 
-# --- DEBUFF MEMORIES ---
 var taunt_duration: int = 0
 var taunted_by: Node = null
 
@@ -18,12 +17,10 @@ var curse_potency: int = 0
 
 var corrosion_stacks: int = 0 
 
-# --- CROWD CONTROL TIMERS ---
 var stun_duration: int = 0
 var freeze_duration: int = 0
 var disabled_duration: int = 0
 
-# --- NEW UNIQUE STATUSES ---
 var wet_duration: int = 0
 var bleed_stacks: int = 0
 var bleed_duration: int = 0
@@ -31,7 +28,6 @@ var confusion_duration: int = 0
 var blind_duration: int = 0
 var slow_duration: int = 0
 
-# --- VISUAL UI ---
 var status_label: Label
 
 func _ready():
@@ -44,30 +40,23 @@ func _ready():
 	status_label.add_theme_constant_override("outline_size", 12) 
 	status_label.add_theme_font_size_override("font_size", 72) 
 	
-	# Uses the deferred call so it doesn't crash on boot!
 	card.call_deferred("add_child", status_label)
 	update_status_ui()
 
-# ==========================================
-# --- REFRESHING THE VISUALS ---
-# ==========================================
 func update_status_ui():
 	if status_label == null: return
 	
 	var ui_text = ""
-	# Elements
 	if taunt_duration > 0: ui_text += "💢" + str(taunt_duration) + " "
 	if burn_duration > 0: ui_text += "🔥" + str(burn_duration) + " "
 	if poison_duration > 0: ui_text += "☠️" + str(poison_duration) + " "
 	if curse_duration > 0: ui_text += "👁️" + str(curse_duration) + " "
 	if corrosion_stacks > 0: ui_text += "🧪" + str(corrosion_stacks) + " "
 	
-	# Crowd Control
 	if stun_duration > 0: ui_text += "💫" + str(stun_duration) + " "
 	if freeze_duration > 0: ui_text += "❄️" + str(freeze_duration) + " "
 	if disabled_duration > 0: ui_text += "🚫" + str(disabled_duration) + " "
 	
-	# New Statuses
 	if wet_duration > 0: ui_text += "💦" + str(wet_duration) + " "
 	if bleed_stacks > 0: ui_text += "🩸" + str(bleed_stacks) + " "
 	if confusion_duration > 0: ui_text += "🌀" + str(confusion_duration) + " "
@@ -76,9 +65,6 @@ func update_status_ui():
 	
 	status_label.text = ui_text
 
-# ==========================================
-# --- APPLYING DEBUFFS & IMMUNITIES ---
-# ==========================================
 func apply_taunt(duration: int, caster: Node):
 	if ("debuff_immune" in card and card.debuff_immune) or ("immune_to_taunt" in card and card.immune_to_taunt):
 		card.show_floating_text("Immune!", Color.GRAY)
@@ -100,7 +86,6 @@ func apply_poison(duration: int, damage: int):
 func apply_burn(duration: int, damage: int):
 	if ("debuff_immune" in card and card.debuff_immune) or ("immune_to_burn" in card and card.immune_to_burn): return
 	
-	# ---> WET CHECK: CANNOT BE IGNITED <---
 	if wet_duration > 0:
 		card.show_floating_text("Too Wet to Burn!", Color.BLUE)
 		return
@@ -151,14 +136,10 @@ func apply_disabled(duration: int):
 	
 	update_status_ui()
 
-# ==========================================
-# --- NEW UNIQUE STATUS APPLICATIONS ---
-# ==========================================
 func apply_wet(duration: int):
 	if ("debuff_immune" in card and card.debuff_immune) or ("immune_to_wet" in card and card.immune_to_wet): return
 	wet_duration = max(wet_duration, duration)
 	
-	# Extinguish any existing fires immediately!
 	if burn_duration > 0:
 		burn_duration = 0
 		burn_damage = 0
@@ -210,7 +191,6 @@ func apply_shell_shocked(battle_manager: Node2D):
 	var is_hybrid = "is_hybrid" in card and card.is_hybrid
 	
 	if is_hybrid:
-		# Hybrid Cards retreat to hand instantly
 		card.row = card.Row.HAND
 		card.current_slot = "hand" if card.is_player_card else "eh"
 		if not card.is_player_card:
@@ -221,7 +201,6 @@ func apply_shell_shocked(battle_manager: Node2D):
 			if battle_manager.has_node("HandManager"):
 				battle_manager.get_node("HandManager").update_player_hand()
 	else:
-		# Standard Cards are forcibly swapped to the reserve
 		var target_reserve = "pr1" if card.is_player_card else "er1"
 		var occupant = battle_manager.get_card_in_slot(target_reserve)
 		
@@ -237,39 +216,31 @@ func apply_shell_shocked(battle_manager: Node2D):
 				else:
 					card.global_position = anchor.global_position
 
-# ==========================================
-# --- TICKING DEBUFFS (Start of Turn) ---
-# ==========================================
 func tick_debuffs():
-	# 1. TAUNT
 	if taunt_duration > 0:
 		taunt_duration -= 1
 		if taunt_duration <= 0:
 			clear_taunt()
 			card.show_floating_text("Taunt Faded", Color.GRAY)
 			
-	# 2. POISON 
 	if poison_duration > 0:
 		card.show_floating_text("Poison Tick", Color.PURPLE)
 		card.take_damage(poison_damage, "poison", null)
 		poison_duration -= 1
 		if poison_duration <= 0: poison_damage = 0
 		
-	# 3. BURN 
 	if burn_duration > 0:
 		card.show_floating_text("🔥 Burn!", Color.ORANGE)
 		card.take_damage(burn_damage, "burn", null)
 		burn_duration -= 1
 		if burn_duration <= 0: burn_damage = 0
 		
-	# 4. CURSE
 	if curse_duration > 0:
 		curse_duration -= 1
 		if curse_duration <= 0:
 			curse_potency = 0
 			card.show_floating_text("Curse Lifted", Color.GRAY)
 			
-	# 5. STUN & FREEZE
 	if stun_duration > 0:
 		stun_duration -= 1
 		if stun_duration <= 0: card.show_floating_text("Stun Lifted", Color.GRAY)
@@ -278,26 +249,22 @@ func tick_debuffs():
 		freeze_duration -= 1
 		if freeze_duration <= 0: card.show_floating_text("Thawed Out", Color.GRAY)
 		
-	# 6. DISABLED
 	if disabled_duration > 0:
 		disabled_duration -= 1
 		if disabled_duration <= 0:
 			card.show_floating_text("Re-Activated!", Color.WHITE)
 			if card.has_method("update_disabled_visuals"): card.update_disabled_visuals()
 			
-	# 7. WET
 	if wet_duration > 0:
 		wet_duration -= 1
 		if wet_duration <= 0: card.show_floating_text("Dried Off", Color.GRAY)
 
-	# 8. BLEED
 	if bleed_duration > 0:
 		bleed_duration -= 1
 		if bleed_duration <= 0:
 			bleed_stacks = 0
 			card.show_floating_text("Bleed Stopped", Color.GRAY)
 
-	# 9. CONFUSION, BLIND, SLOW
 	if confusion_duration > 0:
 		confusion_duration -= 1
 		if confusion_duration <= 0: card.show_floating_text("Regained Senses", Color.GRAY)
@@ -312,9 +279,6 @@ func tick_debuffs():
 				
 	update_status_ui()
 
-# ==========================================
-# --- UTILITIES ---
-# ==========================================
 func clear_taunt():
 	taunt_duration = 0
 	taunted_by = null

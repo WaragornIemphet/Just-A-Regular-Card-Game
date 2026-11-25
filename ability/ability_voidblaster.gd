@@ -9,14 +9,10 @@ func execute(user_card, target_card, manager) -> bool:
 	manager.log_event("\n🌌 >>> VOID BLASTER ACTIVATED <<< 🌌")
 	manager.log_event("ccboatcc tears a hole in reality! A massive 10-second void beam fires at " + target_card.card_name + "!")
 
-	# ==========================================
-	# 1. APPLY VOID ARMOR & OVERCHARGE BUFF
-	# ==========================================
 	if "max_defense" in user_card: user_card.max_defense += 250
 	user_card.defense += 250
 	user_card.show_floating_text("+250 DEF", Color.CYAN)
 	
-	# ---> NEW: UNLOCK THE MULTI-MODE COMBO! <---
 	var mode_manager = user_card.get_node_or_null("ModeManager")
 	if mode_manager != null and "exhaust_only_after_all_modes" in mode_manager:
 		mode_manager.exhaust_only_after_all_modes = true
@@ -27,21 +23,14 @@ func execute(user_card, target_card, manager) -> bool:
 		
 	manager.log_event("🛡️ ccboatcc gains 250 Void Armor! He is free to advance his assault.")
 
-	# ==========================================
-	# 2. CALCULATE INITIAL TRAJECTORY
-	# ==========================================
 	var start_pos = user_card.global_position
 	var dir = (target_card.global_position - start_pos).normalized()
 
-	# We fire the beam asynchronously, letting it recalculate hits EVERY SECOND!
 	_fire_beam_loop(user_card, manager, start_pos, dir, target_card)
 
 	has_been_used = true
 	return true
 
-# ==========================================
-# BACKGROUND DAMAGE ENGINE & VFX
-# ==========================================
 func _fire_beam_loop(attacker, manager, start_pos, dir, initial_target):
 	var beam_node = Node2D.new()
 	beam_node.z_index = 45 
@@ -52,13 +41,8 @@ func _fire_beam_loop(attacker, manager, start_pos, dir, initial_target):
 
 	var perp = Vector2(-dir.y, dir.x)
 	
-	# ---> NEW: Memorize whose side ccboatcc is on! <---
-	# Even if he dies, the beam will remember who the enemies are.
 	var attacker_is_player = attacker.is_player_card 
 
-	# ==========================================
-	# 1. GENERATE THE MINECRAFT VOID BEAM
-	# ==========================================
 	for d in range(0, 2500, 15): 
 		for p_idx in range(6): 
 			var p = ColorRect.new()
@@ -84,9 +68,6 @@ func _fire_beam_loop(attacker, manager, start_pos, dir, initial_target):
 			tw.parallel().tween_property(p, "modulate:a", randf_range(0.5, 1.0), random_time)
 			tw.tween_property(p, "scale", Vector2(0.8, 0.8), random_time)
 
-	# ==========================================
-	# 2. THE 10-SECOND DAMAGE LOOP
-	# ==========================================
 	for i in range(10):
 		if not is_instance_valid(manager) or manager.is_game_over:
 			break
@@ -121,20 +102,15 @@ func _fire_beam_loop(attacker, manager, start_pos, dir, initial_target):
 			tw.parallel().tween_property(p, "modulate:a", 0.0, 0.8)
 			tw.tween_callback(p.queue_free)
 
-		# ==========================================
-		# 3. RECALCULATE TARGETS EVERY SECOND
-		# ==========================================
 		var current_targets = []
 		var all_cards = manager.get_tree().get_nodes_in_group("cards")
 		
 		for c in all_cards:
 			if is_instance_valid(c) and not c.is_queued_for_deletion():
 				
-				# ---> FIX: Use the memorized allegiance! <---
 				var is_enemy = (c.is_player_card != attacker_is_player)
 				
 				if is_enemy and c.row != c.Row.HAND:
-					# Safe check for initial target in case they died
 					if is_instance_valid(initial_target) and c == initial_target:
 						if not current_targets.has(c): current_targets.append(c)
 						continue
@@ -147,7 +123,6 @@ func _fire_beam_loop(attacker, manager, start_pos, dir, initial_target):
 						if dist_to_line <= 150.0:
 							current_targets.append(c)
 
-		# Apply Damage Tick
 		for t in current_targets:
 			if is_instance_valid(t) and not t.is_queued_for_deletion():
 				var old_block = t.block_stacks if "block_stacks" in t else 0
@@ -159,7 +134,6 @@ func _fire_beam_loop(attacker, manager, start_pos, dir, initial_target):
 
 				var safe_attacker = attacker if is_instance_valid(attacker) else null
 				
-				# ---> FIX: FORCE RANGED ATTACK TO BYPASS MELEE COUNTERS <---
 				var orig_melee = false
 				if safe_attacker != null and "is_melee" in safe_attacker:
 					orig_melee = safe_attacker.is_melee
@@ -168,7 +142,6 @@ func _fire_beam_loop(attacker, manager, start_pos, dir, initial_target):
 				t.take_damage(dmg_amount, "pierce", safe_attacker)
 				t.show_floating_text(float_text, Color(0.7, 0.1, 1.0))
 
-				# Restore ccboatcc's original melee stat instantly
 				if is_instance_valid(safe_attacker) and "is_melee" in safe_attacker:
 					safe_attacker.is_melee = orig_melee
 

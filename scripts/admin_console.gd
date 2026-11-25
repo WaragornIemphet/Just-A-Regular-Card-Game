@@ -12,9 +12,6 @@ func process_command(text: String):
 	var command = parts[0].to_lower()
 
 	match command:
-		# ==========================================
-		# /GIVE [card_name.tscn] [player/ai]
-		# ==========================================
 		"/give":
 			if parts.size() < 3:
 				manager.log_event("❌ ERROR: Use /give [card_name.tscn] [player/ai]")
@@ -63,9 +60,6 @@ func process_command(text: String):
 				manager.log_event("🔧 ADMIN: Spawned " + new_card.card_name + " for AI.")
 				if manager.has_method("update_ai_hand_visuals"): manager.update_ai_hand_visuals()
 
-		# ==========================================
-		# /CLEAR [board/hand] [player/ai]
-		# ==========================================
 		"/clear":
 			if parts.size() < 3:
 				manager.log_event("❌ ERROR: Use /clear [board/hand] [player/ai]")
@@ -91,9 +85,6 @@ func process_command(text: String):
 				if is_player and manager.has_node("HandManager"): manager.get_node("HandManager").update_player_hand()
 				elif not is_player and manager.has_method("update_ai_hand_visuals"): manager.update_ai_hand_visuals()
 
-		# ==========================================
-		# /DECK [reset/draw/draw4] [player/ai]
-		# ==========================================
 		"/deck":
 			if parts.size() < 2:
 				manager.log_event("❌ ERROR: Use /deck [reset/draw/draw4] [player/ai]")
@@ -104,7 +95,6 @@ func process_command(text: String):
 			if action == "reset":
 				var dm = manager.get_node_or_null("DeckManager")
 				if dm:
-					# Tries common setup function names for the deck
 					if dm.has_method("build_deck"): dm.build_deck()
 					elif dm.has_method("reset"): dm.reset()
 					elif dm.has_method("_ready"): dm._ready()
@@ -125,7 +115,6 @@ func process_command(text: String):
 					if is_player:
 						if manager.draw_player_card(): drawn += 1
 					else:
-						# AI Draw bypass
 						var dm = manager.get_node_or_null("DeckManager")
 						if dm:
 							var drawn_scene = dm.draw_card()
@@ -143,16 +132,10 @@ func process_command(text: String):
 				if is_player and manager.has_node("HandManager"): manager.get_node("HandManager").update_player_hand()
 				elif not is_player and manager.has_method("update_ai_hand_visuals"): manager.update_ai_hand_visuals()
 
-		# ==========================================
-		# /RESTART
-		# ==========================================
 		"/restart":
 			manager.log_event("🔧 ADMIN: Restarting match...")
 			get_tree().reload_current_scene()
 
-		# ==========================================
-		# /KILL [card_name.tscn] [player/ai]
-		# ==========================================
 		"/kill":
 			if parts.size() < 3:
 				manager.log_event("❌ ERROR: Use /kill [card_name.tscn] [player/ai]")
@@ -167,7 +150,6 @@ func process_command(text: String):
 				if is_instance_valid(c) and not c.is_queued_for_deletion():
 					if c.is_player_card == is_player and c.row != c.Row.HAND:
 						
-						# Extract the exact file name this card was spawned from!
 						var actual_filename = c.scene_file_path.get_file().get_basename().to_lower()
 						var formatted_name = c.card_name.to_lower().replace(" ", "").replace("_", "")
 						

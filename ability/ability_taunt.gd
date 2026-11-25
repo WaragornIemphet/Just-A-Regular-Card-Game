@@ -10,10 +10,8 @@ func execute(user_card, target_card, manager) -> bool:
 	var hit_count = 0
 	var all_cards = manager.get_tree().get_nodes_in_group("cards")
 	
-	# Scan the board for the opposing team
 	for c in all_cards:
 		if is_instance_valid(c) and not c.is_queued_for_deletion():
-			# This ensures if YOU use it, it hits enemies. If AI uses it, it hits YOU!
 			if c.is_player_card != user_card.is_player_card and c.row == c.Row.FRONTLINE:
 				
 				if c.debuffs != null:

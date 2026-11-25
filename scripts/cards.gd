@@ -25,14 +25,12 @@ var max_health: int
 @export var is_summon: bool = false
 @export var is_trap: bool = false
 
-# COMBAT RANGE (only 2 for now lmao)
 @export_group("Combat Range")
 @export var is_melee: bool = false
 @export var is_ranged: bool = false
 @export var has_depth_charge: bool = false
 @export var can_attack: bool = true
 
-# DOMAIN & TERRAIN
 @export_group("Domain & Roles")
 @export var is_ground: bool = false
 @export var is_air: bool = false
@@ -42,7 +40,6 @@ var max_health: int
 @export var is_anti_air: bool = false
 @export var is_sam: bool = false
 
-# BASE ATTACK MODIFIERS
 @export_group("Base ATK mods")
 @export var attack_power: int = 2
 @export var health: int = 5
@@ -53,13 +50,11 @@ var max_health: int
 
 
 
-# INFINITY
 @export_group("Infinite Stats")
 @export var inf_health: bool = false
 @export var inf_attack: bool = false
 @export var inf_defense: bool = false
 
-# DEFENSIVE STATS
 @export_group("DEF Stats")
 @export var block_stacks: int = 0         
 @export var parry_stacks: int = 0         
@@ -69,16 +64,13 @@ var max_health: int
 @export_group("Visual Effects")
 @export_enum("None", "Judgement Cut", "Explosion", "Gunfire", "Melee Hit","Shadow", "Light", "Fire", "Freeze","Brimstone") var attack_vfx: String = "None"
 
-# AUDIO
 @export_group("Audio")
 @export var attack_sfx: Array[AudioStream] = []
 
-# BOSS MUSICS
 @export_group("Boss Settings")
 @export var is_boss: bool = false
 @export var boss_theme: AudioStream
 
-# ACTION AND BURSTS
 @export_group("Attack Times & Burst")
 @export var attack_times: int = 1
 @export var burst_count: int = 1
@@ -87,14 +79,12 @@ var max_health: int
 var current_attack_cooldown: int = 0     
 var cd_overlay: ColorRect                
 
-# OTHER ATTACK MODIFIERS
 @export_group("Attack ETC.")
 @export var base_ignore_def: bool = false 
 @export var splash_damage: bool = false
 @export var outgoing_damage_type: String = "normal"
 @export var debuff_immune: bool = false
 
-# --- IMMUNITIES ---
 @export_group("Specific Immunities")
 @export var immune_to_stun: bool = false
 @export var immune_to_freeze: bool = false
@@ -166,7 +156,6 @@ func move_to_anchor(target_pos: Vector2):
 func show_floating_text(msg: String, color: Color):
 	visuals.show_floating_text(msg, color)
 	
-	# ---> FIX: Catch both "Miss" and "Evaded" safely <---
 	if "Evaded" in msg or "Miss" in msg:
 		if passives != null:
 			var mih = passives.get_node_or_null("PassiveMadeInHeaven")
@@ -191,13 +180,11 @@ func take_damage(amount: int, damage_type: String = "normal", attacker: Node = n
 		final_amount = 0
 		show_floating_text("BLOCKED", Color.SLATE_GRAY)
 	
-	# Bleed Math
 	if debuffs != null and "bleed_stacks" in debuffs and debuffs.bleed_stacks > 0:
 		var bleed_bonus = (debuffs.bleed_stacks * 10)
 		final_amount += bleed_bonus
 		if debuffs.has_method("apply_bleed"): debuffs.apply_bleed(1) 
 			
-	# Emotional Damage Math
 	if damage_type == "emotional":
 		var prev_health = tower_hp if is_tower else health
 		if is_tower:
@@ -211,7 +198,6 @@ func take_damage(amount: int, damage_type: String = "normal", attacker: Node = n
 		buff_animation() 
 		return true 
 		
-	# Standard Damage Math
 	var hit_landed = false
 	if stats: 
 		hit_landed = stats.take_damage(final_amount, damage_type, attacker)
@@ -251,7 +237,6 @@ func reset_action():
 	attacks_performed = 0 
 	modulate = Color(1.0, 1.0, 1.0, 1.0)
 	
-	# ---> NEW: RESET MODE MANAGER COMBOS <---
 	var mode_manager = get_node_or_null("ModeManager")
 	if mode_manager != null and mode_manager.has_method("reset_modes_used"):
 		mode_manager.reset_modes_used()
@@ -278,16 +263,13 @@ func _process(_delta):
 		hover_ended.emit(self)
 		if row == Row.HAND: visuals.hover_exit_anim()
 		
-	# Dynamic Cooldown Darkening!
 	if max_attack_cooldown > 0 and current_attack_cooldown > 0:
 		cd_overlay.show()
 		var tex_size = texture.get_size() if texture != null else Vector2(500, 700)
 		
-		# Calculate how much of the card should be dark
 		var pct = float(current_attack_cooldown) / float(max_attack_cooldown)
 		
 		cd_overlay.size = Vector2(tex_size.x, tex_size.y * pct)
-		# Anchor it to the bottom of the card
 		cd_overlay.position = Vector2(-tex_size.x / 2.0, (tex_size.y / 2.0) - cd_overlay.size.y)
 	else:
 		cd_overlay.hide()
@@ -317,11 +299,9 @@ func process_round_tick():
 		if ability_node != null and ability_node.current_cooldown > 0:
 			ability_node.current_cooldown -= 1
 			
-		# ---> NEW: Decrement active attack CD <---
 		if current_attack_cooldown > 0:
 			current_attack_cooldown -= 1
 			
-		# ---> NEW: Decrement hidden mode CDs <---
 		var mode_manager = get_node_or_null("ModeManager")
 		if mode_manager and mode_manager.has_method("tick_hidden_cooldowns"):
 			mode_manager.tick_hidden_cooldowns()

@@ -217,10 +217,8 @@ func execute_turn():
 							valid_targets.append(c)
 							
 					elif not c.is_player_card and not c.has_acted and c.row != c.Row.HAND:
-						# ---> FIX: AI NOW RESPECTS COOLDOWNS (AND MULTI-MODE OPTIONS)! <---
 						var is_on_cd = "current_attack_cooldown" in c and c.current_attack_cooldown > 0
 						
-						# Check if this unit has ANY weapon not on cooldown
 						var has_available_mode = false
 						var mode_node = c.get_node_or_null("ModeManager")
 						if mode_node != null and "mode_cooldowns" in mode_node:
@@ -229,7 +227,6 @@ func execute_turn():
 									has_available_mode = true
 									break
 									
-						# If the current weapon is ready, OR if they have a backup weapon ready, let them attack!
 						if not is_on_cd or has_available_mode:
 							var is_ai_tower = "is_tower" in c and c.is_tower
 							if c.row == c.Row.FRONTLINE or c.row == c.Row.HYBRID or _is_artillery(c) or is_ai_tower:
@@ -281,9 +278,6 @@ func execute_turn():
 					else: attacker.debuffs.clear_taunt()
 						
 				if target == null:
-					# ==============================================================
-					# ---> NEW: ADVANCED AI TARGET & MODE-SHIFTING ANALYSIS <---
-					# ==============================================================
 					var highest_score = -1.0
 					var best_target = null
 					var best_mode_idx = -1
@@ -296,18 +290,13 @@ func execute_turn():
 						total_modes = mode_manager.alternate_modes.size() + 1
 						start_mode_idx = mode_manager.current_index
 					
-					# The AI physically loops through every stance it has to test its options!
-					# The AI physically loops through every stance it has to test its options!
 					for m_idx in range(total_modes):
 						
-						# ---> FIX: AI properly ignores used modes AND modes on cooldown! <---
 						var skip_scoring = false
 						
-						# 1. Skip if the stance is on a multi-turn cooldown
 						if "current_attack_cooldown" in attacker and attacker.current_attack_cooldown > 0:
 							skip_scoring = true
 							
-						# 2. Skip if the stance was already fired this specific turn
 						if mode_manager != null and "exhaust_only_after_all_modes" in mode_manager and mode_manager.exhaust_only_after_all_modes:
 							if mode_manager.current_index in mode_manager.modes_attacked_this_turn:
 								skip_scoring = true
@@ -347,21 +336,15 @@ func execute_turn():
 									best_target = t
 									if mode_manager != null: best_mode_idx = mode_manager.current_index
 									
-						# ALWAYS cycle the gun at the end of the loop so it checks the next one!
 						if mode_manager != null: mode_manager.cycle_mode(attacker)
 							
-					# ==============================================================
-					# ---> LOCKING IN THE OPTIMAL MODE <---
-					# ==============================================================
 					if best_target != null:
 						target = best_target
 						
 						if mode_manager != null and best_mode_idx != -1:
-							# Cycle until we lock onto the perfect mode for this specific target
 							while mode_manager.current_index != best_mode_idx:
 								mode_manager.cycle_mode(attacker)
 								
-							# If we changed stances from what we started with, announce it!
 							if mode_manager.current_index != start_mode_idx:
 								var mode_name_str = "Unknown Mode"
 								if mode_manager.current_index == 0:
@@ -378,7 +361,6 @@ func execute_turn():
 								manager.log_event("🧠 AI TACTICS: " + attacker.card_name + " shifted to [" + mode_name_str + "] for optimal engagement!")
 								await get_tree().create_timer(0.6).timeout
 								
-						# ---> FIX: SURVIVAL CHECK AFTER AWAIT <---
 						if not is_instance_valid(attacker) or attacker.is_queued_for_deletion():
 							manager.actions_left -= 1
 							active_combo_attacker = null
@@ -387,13 +369,11 @@ func execute_turn():
 						if not is_instance_valid(target) or target.is_queued_for_deletion():
 							continue # Target died to the void beam, pick a new one!
 								
-						# Synergy announce
 						if synergy_manager != null:
 							var check_dmg = synergy_manager.calculate_synergy_damage(attacker, target, attacker.attack_power, attacker.outgoing_damage_type)
 							if check_dmg > attacker.attack_power:
 								manager.log_event("🎯 AI TACTICS: " + attacker.card_name + " exploits a synergy weakness on " + target.card_name + "!")
 					else:
-						# Failsafe: If absolutely nothing can be targeted, reset the gun to how we found it
 						if mode_manager != null:
 							while mode_manager.current_index != start_mode_idx:
 								mode_manager.cycle_mode(attacker)
@@ -421,7 +401,6 @@ func execute_turn():
 						manager.log_event("🧠 AI saves heal ability (HP is full).")
 
 				if should_use:
-					# ---> CLEANED UP: ModeManager handles stance changes natively now! <---
 					var ability_target = target if ability.requires_target else null
 					var success = await ability.execute(attacker, ability_target, manager)
 
@@ -438,7 +417,6 @@ func execute_turn():
 							await get_tree().create_timer(0.6).timeout
 					else: ability.has_been_used = true 
 
-		# ---> FIX: SECOND SURVIVAL CHECK AFTER ABILITY AWAIT <---
 		if not is_instance_valid(attacker) or attacker.is_queued_for_deletion():
 			manager.actions_left -= 1
 			active_combo_attacker = null
@@ -479,9 +457,6 @@ func execute_turn():
 
 			manager.play_attack_sound(attacker)
 
-			# ==========================================
-			# BURST COMBAT LOOP
-			# ==========================================
 			for b_idx in range(bursts):
 				if not is_instance_valid(attacker) or attacker.is_queued_for_deletion(): break
 				if not is_instance_valid(target) or target.is_queued_for_deletion(): break
@@ -573,9 +548,6 @@ func execute_turn():
 				if b_idx < bursts - 1:
 					await get_tree().create_timer(b_delay).timeout
 
-			# ==========================================
-			# POST-COMBAT RESOLUTION
-			# ==========================================
 			if is_instance_valid(attacker) and not attacker.is_queued_for_deletion():
 				attacker.attacks_performed += 1
 				var target_dead = not is_instance_valid(target) or target.is_queued_for_deletion()
@@ -584,11 +556,9 @@ func execute_turn():
 					if target_is_tower and attacker.attacks_performed < attacker.attack_times:
 						manager.log_event("🤖 " + attacker.card_name + " hit a tower!")
 					
-					# ---> FIX: AI NOW APPLIES COOLDOWN TO ITSELF <---
 					if "max_attack_cooldown" in attacker and attacker.max_attack_cooldown > 0:
 						attacker.current_attack_cooldown = attacker.max_attack_cooldown
 						
-					# ---> FIX: AI MULTI-MODE EXHAUSTION LOGIC <---
 					var ai_mode = attacker.get_node_or_null("ModeManager")
 					if ai_mode != null and "exhaust_only_after_all_modes" in ai_mode and ai_mode.exhaust_only_after_all_modes:
 						ai_mode.mark_current_mode_used()
@@ -597,7 +567,6 @@ func execute_turn():
 							if not attacker.has_acted: attacker.exhaust()
 							active_combo_attacker = null
 						else:
-							# Intercepted! AI resets its basic attack and readies for a stance change!
 							attacker.attacks_performed = 0 
 							attacker.modulate = Color(1.0, 1.0, 1.0, 1.0) 
 							active_combo_attacker = attacker # Forces the AI loop to pick him again!
@@ -623,9 +592,6 @@ func execute_turn():
 	manager.log_event("--- ENEMY AI TURN ENDED ---")
 	manager.start_player_turn()
 	
-# ==========================================
-# ---> HELPER FUNCTIONS <---
-# ==========================================
 func _deploy_from_hand():
 	var all_cards = get_tree().get_nodes_in_group("cards")
 	var hidden_ai_cards = []
