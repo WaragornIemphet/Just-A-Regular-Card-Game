@@ -30,12 +30,11 @@ A tactical card game built in **Godot (GDScript)**, digitized from an original p
 
 ## Documentation & Demo Videos
 
-- **Project Documentation (10 pages):** [Read Full Project Documentation (PDF)](Main_Project_Documentation.pdf)
-- **Demo & QA Testing Videos (4 videos):**
-  - Gameplay & Core Mechanics: *Paste YouTube / Drive link here*
-  - Code & Architecture Walkthrough: *Paste YouTube / Drive link here*
-  - QA & Combat Edge-Case Testing: *Paste YouTube / Drive link here*
-  - UI / VFX Integration Showcase: *Paste YouTube / Drive link here*
+- **Project Documentation (10 pages):** [Read Full Project Documentation (PDF)](Project_Documentation.pdf)
+- **Demo & Development Videos:**
+  - **How to Add Modes in JARCG (VFX, SFX & ModeManager Walkthrough):** [Watch on YouTube](https://youtu.be/1MT800iYRBY)
+  - **JARCG Alpha Testing (Combat & Gameplay Showcase):** [Watch on YouTube](https://youtu.be/mK3BwXMn0jg)
+  - **Additional Gameplay & QA Testing Videos:** [Open Google Drive Folder](https://drive.google.com/drive/folders/1L5-PvArrpLY0RonjGT9sOPNCsmrqO9Oe?usp=sharing)
 
 ---
 
